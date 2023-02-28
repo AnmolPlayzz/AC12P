@@ -31,7 +31,7 @@ drawerTags.forEach(drawer => {
 const mnav = document.querySelector("#mnav");
 const cross = document.querySelector("#cross");
 
-const drawer = document.querySelector(".navbar__mobile .drawer");
+const drawer = document.querySelector(".drawer");
 
 
 mnav.addEventListener("click", () => {
@@ -48,7 +48,7 @@ cross.addEventListener("click", () => {
     drawer.style.transform = "translateX(100%)";
 });
 const desktopLinks = document.querySelectorAll(".navbar__desktop a");
-const mobileLinks = document.querySelectorAll(".navbar__mobile .drawer a");
+const mobileLinks = document.querySelectorAll(".drawer a");
 
 // add click event listener to each mobile link
 mobileLinks.forEach((link) => {
@@ -71,7 +71,7 @@ desktopLinks.forEach((link) => {
     link.addEventListener("click", () => {
         // activate the corresponding mobile link
         const targetId = link.getAttribute("href").slice(1);
-        const targetLink = document.querySelector(`.navbar__mobile .drawer a[href="#${targetId}"]`);
+        const targetLink = document.querySelector(`.drawer a[href="#${targetId}"]`);
         mobileLinks.forEach((link) => link.classList.remove("active", "active1"));
         targetLink.classList.add("active", "active1");
     });
