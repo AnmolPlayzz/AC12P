@@ -139,21 +139,10 @@ document.querySelectorAll("code").forEach(codeBlock => {
     copyBtn.classList.add("copy-btn")
     copyBtn.addEventListener("click", function() {
         navigator.clipboard.writeText(codeBlock.textContent).then(function() {
-            const alert = document.createElement('div');
-            alert.classList.add("alert")
-            alert.innerHTML = 'Copied to clipboard';
-            alert.style.position = 'fixed';
-            alert.style.bottom = '10px';
-            alert.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-            alert.style.color = 'white';
-            alert.style.padding = '10px';
-            alert.style.borderRadius = '5px';
-            alert.style.zIndex = '9999';
-
-            document.body.appendChild(alert);
-
+            const alert = document.querySelector(".copy-a")
+            alert.classList.add("show-a")
             setTimeout(() => {
-                alert.remove();
+                alert.classList.remove("show-a");
             }, 5000);
         });
     });
