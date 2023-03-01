@@ -1,4 +1,7 @@
-window.scrollTo(0,1);
+addEventListener('DOMContentLoaded', (event) => {
+    window.scrollTo(0,1);
+});
+
 hljs.initHighlightingOnLoad();
 const anchorTags = document.querySelectorAll('.navbar__desktop a');
 const drawerTags = document.querySelectorAll(".drawer a")
