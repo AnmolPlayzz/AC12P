@@ -490,7 +490,160 @@ code {
     margin: 0;
 }
 
+@keyframes terminalload {
+    0% {
+        transform: translateY(10%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0%);
+        opacity: 1;
+    }
+}
+
+
+@keyframes opacityup {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+#terminal.current {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: hue-rotate(180deg);
+    background-image: radial-gradient(50% 50%, rgba(0, 0, 0, 0) 20.46%, rgba(0, 0, 0, 1) 100%), url("assets/bg.svg");
+    background-size: cover;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    opacity: 1;
+    animation: opacityup 0.5s cubic-bezier(0.85, 0, 0.15, 1);
+}
+
+#terminal.current > div {
+    padding: 20px 30px;
+    border-radius: 20px;
+    background-color: rgba(40, 40, 40, 0.27);
+    width: 60vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(15px);
+    transform: translateY(10%);
+    opacity: 0;
+    animation: terminalload 0.5s cubic-bezier(0.85, 0, 0.15, 1) 0.9s forwards;
+}
+
+#terminal.current  img {
+    width: 40vw;
+    border-radius: 20px;
+    margin-left: 30px;
+}
+
+
+.th {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.th h5 {
+    font-size: 30px;
+    font-weight: 900;
+    color: white;
+    margin: 0px 0px;
+}
+
+.th p {
+    font-size: 15px;
+    color: white;
+    margin: 5px 0px;
+    font-weight: 100;
+}
+
+.th a {
+    background-color: black;
+    font-size: 17px;
+    text-decoration: none;
+    color: white;
+    margin: 20px 0px;
+    font-weight: 10;
+    padding: 10px 20px;
+    border: solid white 2px;
+    border-radius: 10px;
+    width: fit-content;
+    transition: all 0.4s ease;
+}
+
+.th a:hover {
+    background-color: #F2F2F2;
+    color: black;
+}
+
+.th a:active {
+    background-color: #b2b2b2;
+    color: black;
+}
+
+#webide.current {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    filter: hue-rotate(270deg);
+    background-image: radial-gradient(50% 50%, rgba(0, 0, 0, 0) 20.46%, rgba(0, 0, 0, 1) 100%), url("assets/bg.svg");
+    background-size: cover;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    opacity: 1;
+    animation: opacityup 0.5s cubic-bezier(0.85, 0, 0.15, 1);
+}
+
+#webide.current > div {
+    padding: 20px 30px;
+    border-radius: 20px;
+    background-color: rgba(40, 40, 40, 0.27);
+    width: 60vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(15px);
+    transform: translateY(10%);
+    opacity: 0;
+    animation: terminalload 0.5s cubic-bezier(0.85, 0, 0.15, 1) 0.9s forwards;
+}
+
+#webide.current  img {
+    width: 40vw;
+    border-radius: 20px;
+    margin-left: 30px;
+    filter: hue-rotate(90deg);
+}
+
 @media screen and (max-width: 745px) {
+    #terminal.current > div {
+        flex-direction: column;
+    }
+    #terminal.current img {
+        width: 100%;
+        margin-left: 0px;
+    }
+    #webide.current > div {
+        flex-direction: column;
+    }
+    #webide.current img {
+        width: 100%;
+        margin-left: 0px;
+    }
+    .th a:hover {
+        background-color: initial;
+        color: initial;
+    }
     #code h3 {
         font-size: 9vw;
     }

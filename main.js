@@ -132,6 +132,56 @@ code1.forEach((link) => {
     });
 });
 
+const terminal = document.querySelectorAll('a[href="#terminal"]');
+terminal.forEach((link) => {
+    link.addEventListener("click", () => {
+        let main = document.querySelector(".current");
+        main.style.opacity="0";
+        main.style.transition="0.5s all ease";
+        new Promise((resolve) => {
+            setTimeout(() => {
+                main.classList.remove("current");
+                resolve();
+            }, 500); // set the time for the transition to complete
+        }).then(() => {
+            new Promise((resolve) => {
+                document.querySelector("#terminal").classList.add("current")
+                resolve();
+            }).then(() => {
+                setTimeout(() => {
+                    document.querySelector("#terminal").style.opacity="1"
+                    document.querySelector("#terminal").style.transition="0.5s all ease";
+                }, 500);
+            });
+        });
+    });
+});
+
+const ide = document.querySelectorAll('a[href="#ide"]');
+ide.forEach((link) => {
+    link.addEventListener("click", () => {
+        let main = document.querySelector(".current");
+        main.style.opacity="0";
+        main.style.transition="0.5s all ease";
+        new Promise((resolve) => {
+            setTimeout(() => {
+                main.classList.remove("current");
+                resolve();
+            }, 500); // set the time for the transition to complete
+        }).then(() => {
+            new Promise((resolve) => {
+                document.querySelector("#webide").classList.add("current")
+                resolve();
+            }).then(() => {
+                setTimeout(() => {
+                    document.querySelector("#webide").style.opacity="1"
+                    document.querySelector("#webide").style.transition="0.5s all ease";
+                }, 500);
+            });
+        });
+    });
+});
+
 //code/buttons
 
 const codeBlocks = document.querySelectorAll(".code-block");

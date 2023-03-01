@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Python Web IDE</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/brython@3/brython.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/brython@3/brython_stdlib.js"></script>
+        <style type="text/css" media="screen">
+            div, body, pre, hr {
+                margin: 0;
+                padding: 0;
+            }
+            pre {
+                margin: 10px 20px;
+            }
+            hr {
+                background-color: #232323;
+                color: #232323;
+                position: fixed;
+                width: 100vw;
+                height: 1px;
+                border: 0; 
+            }
+            body {
+                background-color: #141414;
+                font-family: sans-serif;
+                color: white
+            }
+            #btn {
+                height: 4vh;
+                border: 2px solid #00000000;
+                width: 70px;
+                background-color: #2bfd7d;
+                transition: all 0.2s ease;
+                color: black;
+            }
+            #btn:hover {
+                height: 4vh;
+                border: 0;
+                width: 70px;
+                background-color: #00000000;
+                border: 2px solid #2bfd7d;
+                color: white;
+            }
+            #reset {
+                height: 4vh;
+                border: 2px solid #00000000;
+                width: 70px;
+                background-color: #ff749b;
+                transition: all 0.2s ease;
+                color: black;
+            }
+            #reset:hover {
+                height: 4vh;
+                border: 0;
+                width: 70px;
+                background-color: #00000000;
+                border: 2px solid #ff749b;
+                color: white;
+            }
+            #editor { 
+                margin: 0;
+                width: 100vw;
+                height: 48vh;
+            }
+            #outp {
+                margin: 0;
+                width: 100vw;
+                height: 48vh;
+                overflow-y: scroll
+                
+            }
+            .fs {
+                width: 0vw;
+                height: 100vh;
+
+            }
+            .contain {
+                display: flex;
+            }
+            .mv {
+                display: flex;
+                flex-direction: column;
+            }
+            h3 {
+                background-color: #000000;
+                border-radius: 10px;
+                color: white;
+                padding: 6px 12px;
+                position: fixed
+            }
+        </style>
+    </head>
+<body onload="brython()">
+<script defer type="text/python">
+from browser import document, html, window
+import sys
+import traceback
+from io import StringIO
+import contextlib
+od=document.querySelector("#outp")
+def exec_with_captured_stdout(code):
+    old_stdout = sys.stdout
+    sys.stdout = StringIO()
+    
+    try:
+        exec(code)
+    except Exception as e:
+        sys.stdout.write(traceback.format_exc())
+    captured_output = sys.stdout.getvalue()
+    sys.stdout.close()
+    sys.stdout = old_stdout
+
+    print("StdOut:",captured_output)
+    global outp
+    outp = html.PRE(captured_output)
+    outp.classList=[""]
+
+def run_in_browser(event, code_block):
+    exec_with_captured_stdout(code_block.text)
+    od.insertBefore(outp, document.querySelector("br").nextSibling)
+cd=document.querySelector(".ace_content")
+document.querySelector("#btn").bind("click", lambda event, c=cd: run_in_browser(event,c));
+
+</script>
+<div class="contain">
+    <div class="fs"></div>
+    <div class="mv">
+    <div>
+        <button id="btn">Run ></button>
+        <button id="reset" onclick="editor.setValue('')">Reset X</button>
+    </div>
+        <div id="editor">for i in range(10):
+    print(i)</div>
+        <div id="outp"><hr><h3 style="margin: 10px 20px; width: fit-content">Output</h1><div style="margin-bottom: 30px"></div><br></div>
+    </div>
+</div>
+<script src="/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+        <script>
+            var editor = ace.edit("editor");
+            editor.setTheme("ace/theme/twilight");
+            editor.session.setMode("ace/mode/python");
+            document.querySelector("#editor")
+        </script>
+    </body>
+</html>
