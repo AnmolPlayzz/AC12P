@@ -645,7 +645,7 @@ code {
         width: 27px;
         position: absolute;
         right: 0;
-        padding: 5px 36.5px;
+        padding: 5px 34.5px;
         color: white;
         transition: 0.5s all cubic-bezier(0.87, 0, 0.13, 1);
     }
