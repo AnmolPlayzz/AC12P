@@ -34,6 +34,17 @@
     to {transform: translateY(0%);}
 }
 
+main {
+    display: none;
+    opacity: 0;
+}
+
+#home.current {
+    display: flex;
+    opacity: 1;
+    transition: 0.5s all ease;
+}
+
 .drawer {
     display: none;
 }
@@ -64,6 +75,7 @@ body {
 }
 
 .navbar__desktop {
+    position: fixed;
     width: 100px;
     height: 100vh;
     display: flex;
@@ -84,7 +96,7 @@ body {
     -moz-border-radius : 10px;
     -webkit-border-radius : 10px;
     padding: 30px 0px;
-    animation: nvdesk 0.5s ease;
+    animation: nvdesk 0.8s ease;
 }
 
 #nb_c1 div {
@@ -105,11 +117,7 @@ body {
     color : rgb(242, 242, 242);
     padding: 25px 0px;
     transition: 0.5s all ease;
-    animation: nvdesk1 0.5s ease;
-    animation-delay: 0.2s;
-    -webkit-animation-fill-mode: forwards; /* Safari 4.0 - 8.0 */
-    animation-fill-mode: forwards;
-    transform: translateX(200px);
+
 }
 
 .navbar__desktop a:hover {
@@ -194,8 +202,7 @@ a:hover::after {
     filter: invert(0)
 }
 
-main {
-    display: flex;
+#home {
     justify-content: center;
     align-items: center;
     width: calc(100vw - 100px);
@@ -211,7 +218,7 @@ main {
     overflow: hidden;
 }
 
-main > div {
+#home > div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -249,7 +256,7 @@ div > h1 {
 
 }
 
-main > p {
+#home > p {
     font-size: 20px;
     color: white;
     text-align: center;
@@ -262,7 +269,7 @@ main > p {
     transform: translateY(100vh);
 }
 
-main > img {
+#home > img {
     position: absolute;
     bottom: 20px;
     width: 30px;
@@ -275,7 +282,7 @@ main > img {
 
 }
 
-main > img:hover {
+#home > img:hover {
     transform: translateY(20px);
 }
 
@@ -284,10 +291,160 @@ main > img:hover {
     height: 20px !important;
 }
 
+main {
+    width: calc(100vw - 100px);
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100vh;
+}
+
+#code.current {
+    background-color: black;
+    display: flex;
+    align-items: center;
+    opacity: 1;
+    z-index: 1;
+}
+@keyframes codeanim {
+    0% {color: rgba(255, 255, 255, 0);}
+    100% {color: rgba(255, 255, 255, 1);}
+}
+
+@keyframes codeanim {
+    0% {color: rgba(255, 255, 255, 0);}
+    100% {color: rgba(255, 255, 255, 1);}
+}
+
+#code h3 {
+    display: block;
+    margin: 50px 100px;
+    position: relative;
+    font-size: 5vw;
+    color: rgba(255, 255, 255, 0);
+    font-weight: 900;
+    animation: codeanim 0.1s ease;
+    animation-delay: 1.5s;
+    animation-fill-mode: forwards;
+}
+
+#code h4 {
+    color: white;
+    font-size: 19px;
+}
+
+@keyframes codeanim1 {
+    0% {transform: scaleX(0%);
+        transform-origin: left}
+    40% {transform: scaleX(100%);
+        transform-origin: left}
+    60% {transform: scaleX(100%);
+    transform-origin: right}
+    100% {transform: scaleX(0%);
+        transform-origin: right}
+}
+
+#code h3::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: scaleX(0%);
+    transform-origin: left;
+    height: 100%;
+    width: 100%;
+    background-color: #F2F2F2;
+    animation: codeanim1 1s cubic-bezier(0.65, 0, 0.35, 1);
+    animation-delay: 1s;
+    animation-fill-mode: forwards;
+}
+
+.codeh {
+    background : linear-gradient(90deg, rgba(255, 98, 0, 1) 0%, rgba(255, 142, 0, 1) 31.28%, rgba(255, 176, 0, 1) 60.21%, rgba(255, 197, 0, 1) 84.1%, rgba(255, 204, 0, 1) 100%);
+    width: 60vw;
+    border-radius: 20px;
+    padding: 45px;
+    box-sizing: border-box;
+    position: relative;
+    opacity: 0;
+    animation: codeload 0.5s ease 2s forwards;
+    z-index: -1;
+}
+.codeh::before {
+    background-color: #1a1a1a;
+    border-radius: 20px;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    content: "";
+    top: 2px;
+    left: 2px;
+    position: absolute;
+    z-index: -3;
+}
+
+.codeh::after {
+    border-radius: 20px;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    content: "";
+    top: -2px;
+    left: -2px;
+    background : linear-gradient(90deg, rgba(255, 98, 0, 1) 0%, rgba(255, 142, 0, 1) 31.28%, rgba(255, 176, 0, 1) 60.21%, rgba(255, 197, 0, 1) 84.1%, rgba(255, 204, 0, 1) 100%);
+    position: absolute;
+    z-index: -5;
+    filter: blur(15px);
+}
+
+@keyframes codeload {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;;
+    }
+}
+
+code {
+    border-style : Solid;
+    border-color : #333333;
+    border-color : rgba(51, 51, 51, 1);
+    border-width : 1px;
+    border-radius : 15px;
+    margin: 20px 0px;
+    z-index: 0;
+}
+
+.copy-btn {
+    background : #141414;
+    background : rgba(20, 20, 20, 1);
+    border-style : Solid;
+    border-color : #4D4D4D;
+    border-color : rgba(77, 77, 77, 1);
+    border-width : 1px;
+    border-radius : 9px;
+    -moz-border-radius : 9px;
+    -webkit-border-radius : 9px;
+    font-family : Roboto;
+    font-size : 15px;
+    color : #F2F2F2;
+    color : rgb(242, 242, 242);
+    padding: 8px 15px;
+    margin-left: 0 !important;
+    margin-right: 10px;
+    z-index: 0;
+}
+
 @media screen and (max-width: 745px) {
+    .code {
+        width: 55vw;
+    }
     .drawer {
         display: block;
         position: relative !important;
+    }
+    .drawer::after {
+        display: none;
     }
     .navbar__mobile {
         display: block;
@@ -296,14 +453,14 @@ main > img:hover {
     body {
         flex-direction: column;
     }
-    main > p {
+    #home > p {
         font-size: 12px;
         color: white;
         text-align: center;
         margin-top: 6vh;
         margin-bottom: 0;
     }
-    main {
+    main, #home {
         width: 100vw;
         position: absolute;
         top: 70px;

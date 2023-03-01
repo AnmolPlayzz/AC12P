@@ -1,3 +1,4 @@
+hljs.initHighlightingOnLoad();
 const anchorTags = document.querySelectorAll('.navbar__desktop a');
 const drawerTags = document.querySelectorAll(".drawer a")
 const info = document.querySelector('#nb_c2');
@@ -75,4 +76,86 @@ desktopLinks.forEach((link) => {
         mobileLinks.forEach((link) => link.classList.remove("active", "active1"));
         targetLink.classList.add("active", "active1");
     });
+});
+
+const home = document.querySelectorAll('a[href="#home"]');
+home.forEach((link) => {
+    link.addEventListener("click", () => {
+        let main = document.querySelector(".current");
+        main.style.opacity="0";
+        main.style.transition="0.5s all ease";
+        new Promise((resolve) => {
+            setTimeout(() => {
+                main.classList.remove("current");
+                resolve();
+            }, 500); // set the time for the transition to complete
+        }).then(() => {
+            new Promise((resolve) => {
+                document.querySelector("#home").classList.add("current")
+                resolve();
+            }).then(() => {
+                setTimeout(() => {
+                    document.querySelector("#home").style.opacity="1"
+                    document.querySelector("#home").style.transition="0.5s all ease";
+                }, 500);
+            });
+        });
+    });
+});
+
+const code1 = document.querySelectorAll('a[href="#code"]');
+code1.forEach((link) => {
+    link.addEventListener("click", () => {
+        let main = document.querySelector(".current");
+        main.style.opacity="0";
+        main.style.transition="0.5s all ease";
+        new Promise((resolve) => {
+            setTimeout(() => {
+                main.classList.remove("current");
+                resolve();
+            }, 500); // set the time for the transition to complete
+        }).then(() => {
+            new Promise((resolve) => {
+                document.querySelector("#code").classList.add("current")
+                resolve();
+            }).then(() => {
+                setTimeout(() => {
+                    document.querySelector("#code").style.opacity="1"
+                    document.querySelector("#code").style.transition="0.5s all ease";
+                }, 500);
+            });
+        });
+    });
+});
+
+//code/buttons
+
+const codeBlocks = document.querySelectorAll(".code-block");
+var code = document.querySelector("code").textContent;
+document.querySelectorAll("code").forEach(codeBlock => {
+    var copyBtn = document.createElement("button");
+    copyBtn.innerHTML = "Copy";
+    copyBtn.style.marginLeft = "10px";
+    copyBtn.classList.add("copy-btn")
+    copyBtn.addEventListener("click", function() {
+        navigator.clipboard.writeText(codeBlock.textContent).then(function() {
+            const alert = document.createElement('div');
+            alert.classList.add("alert")
+            alert.innerHTML = 'Copied to clipboard';
+            alert.style.position = 'fixed';
+            alert.style.bottom = '10px';
+            alert.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+            alert.style.color = 'white';
+            alert.style.padding = '10px';
+            alert.style.borderRadius = '5px';
+            alert.style.zIndex = '9999';
+
+            document.body.appendChild(alert);
+
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        });
+    });
+    codeBlock.parentNode.insertBefore(copyBtn, codeBlock.nextSibling);
 });

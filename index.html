@@ -5,10 +5,105 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>All Class 12 Programs</title>
+    <link rel="stylesheet" href="assets/highlight.css">
+    <link rel="icon" href="webv3.png" type="image/x-icon">
+    <script src="assets/brython.js">
+    </script>
+    <script src="assets/brython_stdlib.js">
+    </script>
     <link rel="stylesheet" href="main.css">
     <script type="text/javascript" src="main.js" defer></script>
 </head>
-<body>
+<body onload="brython()">
+<script type="text/python">
+      from browser import document, html, window
+      import sys
+      import traceback
+      from io import StringIO
+      import contextlib
+
+      def exec_with_captured_stdout(code):
+          old_stdout = sys.stdout
+          sys.stdout = StringIO()
+
+          try:
+              exec(code)
+          except Exception as e:
+              sys.stdout.write(traceback.format_exc())
+          captured_output = sys.stdout.getvalue()
+          sys.stdout.close()
+          sys.stdout = old_stdout
+
+          print("StdOut:",captured_output)
+
+          global outp
+          outp = html.CODE(captured_output)
+          outp.classList=["code-block language-python hljs runner"]
+
+
+      def run_in_browser(event, code_block):
+          exec_with_captured_stdout(code_block.text)
+          print(code_block)
+          code_block.parentNode.insertBefore(outp, code_block.nextSibling.nextSibling.nextSibling.nextSibling)
+      def run_in_browser2(event, code_block):
+          exec_with_captured_stdout(code_block.text)
+          print(code_block)
+          code_block.parentNode.insertBefore(outp, code_block.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling)
+
+
+      for code_block in document.querySelectorAll(".code-block"):
+          run_btn = html.BUTTON("Run")
+          run_btn.style = {"margin-left": "10px"}
+          run_btn.classList = ["run-btn copy-btn"]
+          run_btn.bind("click", lambda event, c=code_block: run_in_browser(event, c))
+          code_block.parentNode.insertBefore(run_btn, code_block.nextSibling)
+
+
+      for code_block in document.querySelectorAll(".code-block"):
+          edit_btn = html.BUTTON("Edit")
+          edit_btn.style = {"margin-left": "10px"}
+          edit_btn.classList = ["edit-btn copy-btn"]
+          edit_btn.bind("click", lambda event,e=edit_btn , c=code_block: edit_in_browser(c,e))
+          code_block.parentNode.insertBefore(edit_btn, code_block.nextSibling)
+
+      def edit_in_browser(c,e):
+          e.disabled = True
+          org=c.innerHTML
+          sr=c.textContent
+          cee=html.CODE()
+          c.parentNode.insertBefore(cee,e.previousSibling)
+          c.style={"display": "none"}
+          cee.outerHTML="<code class='code-block hljs' contenteditable>"+str(sr)+"</code>"
+          dock=html.DIV()
+          dock.classList = ["dock"]
+          e.parentNode.insertBefore(dock, e.nextSibling.nextSibling.nextSibling)
+          def de(event,c):
+            #done.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.outerHTML="<code class='code-block language-python hljs'>"+done.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.textContent+"</code>"
+              run_in_browser2(event, done.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.previousSibling)
+              done.parentNode.parentNode.removeChild(c.previousSibling)
+              c.style={"display": "block"}
+              done.parentNode.parentNode.removeChild(done.parentNode)
+              e.disabled = False
+          def ce(event):
+              done.parentNode.parentNode.removeChild(c.previousSibling)
+              c.style={"display": "block"}
+              done.parentNode.parentNode.removeChild(done.parentNode)
+              e.disabled = False
+          done=html.BUTTON("Run")
+          done.style = {"margin-left": "10px"}
+          done.classList = ["copy-btn"]
+          done.bind("click",lambda event, cde=c: de(event,cde))
+          dock.insertBefore(done,done.nextSibling)
+          cancel=html.BUTTON("Cancel")
+          cancel.style = {"margin-left": "10px"}
+          cancel.classList = ["copy-btn"]
+          cancel.bind("click", ce)
+          dock.insertBefore(cancel,done.nextSibling)
+
+
+
+      </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js"></script>
     <div class="main-content">
         <div class="navbar__desktop">
             <div id="nb_c1">
@@ -41,13 +136,24 @@
             <a href="#ide">Web IDE</a>
             <a href="#about">About</a>
         </div>
-        <main>
+        <main id="home" class="current">
             <div>
                 <img class="code" src="assets/code.png">
                 <h1>ALL CLASS<br>12 PROGRAMS</h1>
             </div>
             <p>All programs done in class 12.</p>
-            <img src="assets/down.svg">
+        </main>
+        <main id="code" class="">
+            <h3 class="head">Code</h3>
+            <div class="codeh">
+                <h4>1. Add items to list</h4>
+                <pre><code class="code-block language-python">l=[]
+n=int(input("Enter no. -> "))
+for i in range(n):
+    l.append(int(input("-> ")))
+print(l)</code></pre>
+            </div>
+
         </main>
     </div>
 </body>
