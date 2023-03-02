@@ -182,6 +182,31 @@ ide.forEach((link) => {
     });
 });
 
+const about = document.querySelectorAll('a[href="#about"]');
+about.forEach((link) => {
+    link.addEventListener("click", () => {
+        let main = document.querySelector(".current");
+        main.style.opacity="0";
+        main.style.transition="0.5s all ease";
+        new Promise((resolve) => {
+            setTimeout(() => {
+                main.classList.remove("current");
+                resolve();
+            }, 500); // set the time for the transition to complete
+        }).then(() => {
+            new Promise((resolve) => {
+                document.querySelector("#about").classList.add("current")
+                resolve();
+            }).then(() => {
+                setTimeout(() => {
+                    document.querySelector("#about").style.opacity="1"
+                    document.querySelector("#about").style.transition="0.5s all ease";
+                }, 500);
+            });
+        });
+    });
+});
+
 //code/buttons
 
 const codeBlocks = document.querySelectorAll(".code-block");

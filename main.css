@@ -625,7 +625,99 @@ code {
     filter: hue-rotate(90deg);
 }
 
+#about.current {
+    display: flex;
+    opacity: 1;
+}
+
+#about.current > div {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 30px;
+    display: flex;
+}
+
+.gen, .ver {
+    box-sizing: border-box;
+    padding: 10px;
+    width: calc(50% - 30px);
+    background : #141414;
+    background : rgba(20, 20, 20, 1);
+    border-style : Solid;
+    border-color : #4D4D4D;
+    border-color : rgba(77, 77, 77, 1);
+    border-width : 1px;
+    border-radius : 9px;
+    -moz-border-radius : 9px;
+    -webkit-border-radius : 9px;
+    overflow-y: scroll;
+}
+.gen h5, .ver h5 {
+    color: white;
+    text-align: center;
+    font-size: 25px;
+    margin: 20px;
+
+}
+
+.gen {
+    margin-right: 15px;
+    animation: opacityup 0.5s ease-in;
+}
+.gen h2, .ver h2 {
+    color: #d7d7d7;
+}
+
+.gen p, .gen h2, .ver p, .ver h2 {
+    margin: 0px 15px;
+    color: white;
+}
+
+.gen a {
+    color: #ffb591;
+}
+
+.ver {
+    margin-left: 15px;
+    opacity: 0;
+    animation: opacityup 0.5s ease-in 0.2s forwards;
+}
+.latest {
+    background : linear-gradient(90deg, rgba(255, 140, 69, 1) 0%, rgba(255, 69, 97, 1) 100%);
+    padding: 5px 7px;
+    border-radius: 4px;
+    font-size: 12px;
+    vertical-align: center;
+}
 @media screen and (max-width: 745px) {
+    #about.current > div {
+        flex-direction: column;
+    }
+    .gen, .ver {
+        box-sizing: border-box;
+        padding: 10px;
+        width: 100%;
+        height: calc(50% - 30px);
+        background : #141414;
+        background : rgba(20, 20, 20, 1);
+        border-style : Solid;
+        border-color : #4D4D4D;
+        border-color : rgba(77, 77, 77, 1);
+        border-width : 1px;
+        border-radius : 9px;
+        -moz-border-radius : 9px;
+        -webkit-border-radius : 9px;
+        overflow-y: scroll;
+    }
+    .gen {
+        margin-bottom: 15px;
+        margin-right: 0;
+    }
+    .ver {
+        margin-top: 15px;
+        margin-left: 0;
+    }
     #terminal.current > div {
         flex-direction: column;
     }
@@ -733,7 +825,7 @@ code {
         transform: translateX(100%);
         transition: 0.5s all cubic-bezier(0.87, 0, 0.13, 1);
         height: calc(100vh - 70px);
-        bottom: 0;
+        top: 70px;
     }
     .drawer a {
         text-decoration: none;
