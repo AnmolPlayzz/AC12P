@@ -30,6 +30,8 @@ drawerTags.forEach(drawer => {
         this.classList.add('active','active1');
         info.classList.remove('active');
         document.querySelector(".drawer").style.transform = "translateX(100%)";
+        document.querySelector("#cross").style.transform = "translateY(-200%)";
+        document.querySelector("#mnav").style.transform = "translateY(0%)";
     });
 });
 
@@ -44,6 +46,7 @@ mnav.addEventListener("click", () => {
         mnav.style.transform = "translateY(100%)";
         cross.style.transform = "translateY(0%)";
         drawer.style.transform = "translateX(0%)";
+
 });
 
 cross.addEventListener("click", () => {
