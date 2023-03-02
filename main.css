@@ -533,6 +533,7 @@ code {
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     transform: translateY(10%);
     opacity: 0;
     animation: terminalload 0.5s cubic-bezier(0.85, 0, 0.15, 1) 0.9s forwards;
@@ -613,6 +614,7 @@ code {
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     transform: translateY(10%);
     opacity: 0;
     animation: terminalload 0.5s cubic-bezier(0.85, 0, 0.15, 1) 0.9s forwards;
@@ -653,6 +655,7 @@ code {
     -webkit-border-radius : 9px;
     overflow-y: scroll;
     overflow-wrap: anywhere;
+
 }
 .gen h5, .ver h5 {
     color: white;
@@ -766,6 +769,7 @@ code {
     .navbar__mobile {
         display: block;
         backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
         overflow: hidden;
     }
     body {
@@ -821,6 +825,7 @@ code {
     .drawer {
         width: 100vw;
         backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
         z-index: 20;
         position: absolute;
         transform: translateX(100%);

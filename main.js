@@ -29,7 +29,7 @@ drawerTags.forEach(drawer => {
         // Add active class to clicked anchor tag
         this.classList.add('active','active1');
         info.classList.remove('active');
-
+        document.querySelector(".drawer").style.transform = "translateX(100%)";
     });
 });
 
