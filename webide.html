@@ -12,8 +12,79 @@
                 margin: 0;
                 padding: 0;
             }
+            /* width */
+            *::-webkit-scrollbar {
+                width: 20px;
+            }
+
+            /* Track */
+            *::-webkit-scrollbar-track {
+                background: #22232e;
+            }
+
+            /* Handle */
+            *::-webkit-scrollbar-thumb {
+                border-radius: 0px;
+                background: #44475a;
+            }
+
+            /* Handle on hover */
+            *::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+            /* Buttons */
+            ::-webkit-scrollbar-button:single-button {
+                background-color: #22232e;
+                display: block;
+                background-size: 10px;
+                background-repeat: no-repeat;
+            }
+
+            /* Up */
+            ::-webkit-scrollbar-button:single-button:vertical:decrement {
+                height: 12px;
+                width: 16px;
+                background-position: center 4px;
+                background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='rgb(125, 131, 166)'><polygon points='50,00 0,50 100,50'/></svg>");
+            }
+
+            ::-webkit-scrollbar-button:single-button:vertical:decrement:hover {
+                background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='rgb(112, 112, 112)'><polygon points='50,00 0,50 100,50'/></svg>");
+            }
+
+            ::-webkit-scrollbar-button:single-button:vertical:decrement:active {
+                background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='rgb(128, 128, 128)'><polygon points='50,00 0,50 100,50'/></svg>");
+            }
+
+            /* Down */
+            ::-webkit-scrollbar-button:single-button:vertical:increment {
+                height: 12px;
+                width: 16px;
+                background-position: center 2px;
+                background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='rgb(125, 131, 166)'><polygon points='0,0 100,0 50,50'/></svg>");
+            }
+
+            ::-webkit-scrollbar-button:single-button:vertical:increment:hover {
+                background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='rgb(112, 112, 112)'><polygon points='0,0 100,0 50,50'/></svg>");
+            }
+
+            .mv {
+                width: calc(100vw - 20px);
+                height: calc(100vh - 20px);
+                position: relative;
+            }
+            .contain {
+                box-sizing: border-box;
+                padding: 10px;
+                width: 100vw;
+                height: calc(100vh - 20px);
+                position: relative;
+            }
             pre {
                 margin: 10px 20px;
+                background-color: #1b1b24;
+                padding: 15px;
+                border-radius: 7px;
             }
             hr {
                 background-color: #232323;
@@ -24,53 +95,89 @@
                 border: 0; 
             }
             body {
-                background-color: #141414;
+                background-color: #18191f;
                 font-family: sans-serif;
                 color: white
             }
             #btn {
-                height: 4vh;
-                border: 2px solid #00000000;
-                width: 70px;
-                background-color: #2bfd7d;
+                height: 40px;
+                box-sizing: border-box;
+                border: 1px solid #8ff374;
+                border-radius: 5px;
+                width: fit-content;
+                background-color: #0f331f;
                 transition: all 0.2s ease;
-                color: black;
+                color: #ffffff;
+                position: relative;
+            }
+            #btn img {
+                height: 100%;
             }
             #btn:hover {
-                height: 4vh;
                 border: 0;
-                width: 70px;
                 background-color: #00000000;
-                border: 2px solid #2bfd7d;
+                border: 1px solid #2bfd7d;
                 color: white;
             }
             #reset {
-                height: 4vh;
-                border: 2px solid #00000000;
-                width: 70px;
-                background-color: #ff749b;
+                height: 40px;
+                box-sizing: border-box;
+                border: 1px solid #f37474;
+                border-radius: 5px;
+                width: fit-content;
+                background-color: #330f0f;
                 transition: all 0.2s ease;
-                color: black;
+                color: #ffffff;
+                position: relative;;
+            }
+            #reset img {
+                height: 100%;
             }
             #reset:hover {
-                height: 4vh;
                 border: 0;
-                width: 70px;
                 background-color: #00000000;
-                border: 2px solid #ff749b;
+                border: 1px solid #ff749b;
                 color: white;
             }
             #editor { 
-                margin: 0;
-                width: 100vw;
-                height: 48vh;
+                width: 100%;
+                height: calc(48vh - 10px);
+                margin-top: 10px;
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 0px;
+                border-bottom-left-radius: 0px;
             }
             #outp {
-                margin: 0;
-                width: 100vw;
-                height: 48vh;
-                overflow-y: scroll
-                
+                width: 100%;
+                height: calc(48vh - 10px);
+                overflow-y: scroll;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                background-color: #282a36;
+                position: relative;
+            }
+            #outp button {
+                right: 30px;
+                height: 52px;
+                width: 50px;
+                box-sizing: border-box;
+                border: 1px solid #343449;
+                border-radius: 5px;
+                width: fit-content;
+                background-color: #1b1b24;
+                transition: all 0.2s ease;
+                color: #ffffff;
+                position: fixed;
+                padding: 10px;
+            }
+            #outp button:hover {
+                border: 1px solid #454569;
+                background-color: rgba(26, 28, 40, 0.47);
+            }
+            #outp button img {
+                filter: invert(1);
+                height: 30px;
             }
             .fs {
                 width: 0vw;
@@ -85,12 +192,14 @@
                 flex-direction: column;
             }
             h3 {
-                background-color: #000000;
-                border-radius: 10px;
+                margin: 0px 0px !important;
+                background-color: #1f1f28;
                 color: white;
-                padding: 6px 12px;
-                position: fixed
+                padding: 15px 20px;
+                position: fixed;
+                width: calc(100% - 80px) !important;
             }
+
         </style>
     </head>
 <body onload="brython()">
@@ -129,20 +238,34 @@ document.querySelector("#btn").bind("click", lambda event, c=cd: run_in_browser(
     <div class="fs"></div>
     <div class="mv">
     <div>
-        <button id="btn">Run ></button>
-        <button id="reset" onclick="editor.setValue('')">Reset X</button>
+        <button id="btn">
+            <img src="assets/run.svg">
+        </button>
+        <button id="reset" onclick="editor.setValue('')">
+            <img src="assets/reset.svg">
+        </button>
     </div>
         <div id="editor">for i in range(10):
     print(i)</div>
-        <div id="outp"><hr><h3 style="margin: 10px 20px; width: fit-content">Output</h1><div style="margin-bottom: 30px"></div><br></div>
+        <div id="outp">
+            <h3 style="margin: 10px 20px; width: fit-content">Output</h3>
+            <button class="clear">
+                <img src="assets/bin.svg">
+            </button>
+            <div style="margin-bottom: 30px"></div><br></div>
     </div>
 </div>
 <script src="/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
         <script>
             var editor = ace.edit("editor");
-            editor.setTheme("ace/theme/twilight");
+            editor.setTheme("ace/theme/dracula");
             editor.session.setMode("ace/mode/python");
             document.querySelector("#editor")
+            document.querySelector("#outp button").addEventListener('click', function(){
+                document.querySelectorAll("pre").forEach(elem => {
+                    elem.remove()
+                })
+            });
         </script>
     </body>
 </html>
