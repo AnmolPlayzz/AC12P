@@ -289,6 +289,14 @@ div > h1 {
 
 }
 
+.date-data {
+    font-size: 40px;
+    color: white;
+    font-weight: normal;
+    opacity: 0;
+    animation: codeload 0.5s ease 2s forwards;
+}
+
 #home > img:hover {
     transform: translateY(20px);
 }

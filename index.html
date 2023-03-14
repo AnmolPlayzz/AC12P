@@ -148,9 +148,50 @@
         </main>
         <main id="code" class="">
             <h3 class="head">Code</h3>
+            <h4 class="date-data">[14 March 2023] Review of Python</h4>
             <div class="codeh">
-                <h4>1. Some example code</h4>
-                <pre><code class="code-block language-python">print("Welp, class 12 hasn't started yet.")</code></pre>
+                <h4>1. Some guy (forgot his name) borrowed Rs. 40,000 from some other guy. He wants to repay it after 6 years. Find the total amount he has to pay using simple interest. (bro literally gave us a math question in CS 💀💀)</h4>
+                <pre><code class="code-block language-python">p=40000 #principal amnt
+r=8 #rate of interest
+t=6 #time in yrs
+print("Total amount at the end of 6 years:",p+((p*r*t)//100))</code></pre>
+            </div>
+            <div class="codeh">
+                <h4>2. Generate fibonacci series using while loop.</h4>
+                <pre><code class="code-block language-python">n=int(input("Enter the number of terms: "))
+a=0
+b=1
+i=1
+while i<=n:
+    c=a+b
+    print(c)
+    a=b
+    b=c
+    i+=1</code></pre>
+            </div>
+            <div class="codeh">
+                <h4>3. Find a raised to the power b.</h4>
+                <pre><code class="code-block language-python">a=int(input("Enter number -> "))
+b=int(input("Enter power -> "))
+ans=1
+for i in range(1,b+1):
+    ans*=a
+print(a,"^",b,"=",ans)</code></pre>
+            </div>
+            <div class="codeh">
+                <h4>4. Print prime numbers between 2 & 200.</h4>
+                <pre><code class="code-block language-python">for i in range(2,201):
+    prm=False
+    for j in range(2,(i//2)+1):
+        if i%j!=0:
+            prm=True
+        else:
+            prm=False
+            break
+    if prm==True:
+        print(i)
+    else:
+        continue</code></pre>
             </div>
         </main>
         <div class="copy-a">
