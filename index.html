@@ -151,7 +151,39 @@
         </main>
         <main id="code" class="">
             <h3 class="head">Code</h3>
-            <h4 class="date-data"><span class="date">14 March 2023</span> Review of Python</h4>
+            <h4 class="date-data"><span class="date">20 March 2023</span> Review of Python // Day 2</h4>
+            <div class="codeh">
+                <h4>1. WAP to calculate the income tax of employee on the basis of basic sallery and total savings subject to these conditions:<br>
+                        <span style="font-weight: lighter;">
+                        (i) If sallery is less than 2.5 L, no tax <br>
+                        (ii) If sallery is b/w 2.5 L and 5 L, 5% tax <br>
+                        (iii) If sallery is b/w 5 L and 10 L, 20% tax <br>
+                        (iv) If sallery is greater than 10 L, 30% tax <br>
+                        (v) On an investment of upto 1.5 L, employee cam save 45 K
+                        </span>
+
+                </h4>
+                <pre><code class="code-block language-python">b=int(input("Enter basic pay -> "))
+s=int(input("Enter saving -> "))
+t=0
+if b<=250000:
+    t=0
+elif 250000<=b<=500000:
+    t=0.05*b
+elif 500000<=b<=1000000:
+    t=0.2*b
+else:
+    t=0.3*b
+
+if t>=150000:
+    if t>s:
+        t=t-45000
+else:
+    if t>s:
+        t=t-s
+print(t)</code></pre>
+            </div>
+            <h4 class="date-data"><span class="date">14 March 2023</span> Review of Python // Day 1</h4>
             <div class="codeh">
                 <h4>1. Some guy (forgot his name) borrowed Rs. 40,000 from some other guy. He wants to repay it after 6 years. Find the total amount he has to pay using simple interest. (bro literally gave us a math question in CS 💀💀)</h4>
                 <pre><code class="code-block language-python">p=40000 #principal amnt
