@@ -421,6 +421,8 @@ main {
     font-weight: normal;
     opacity: 0;
     margin: 0;
+    line-height: 38px;
+    padding: 0px 10px;
     animation: codeload 0.5s ease 2s forwards;
 }
 
