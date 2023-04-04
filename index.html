@@ -42,7 +42,7 @@
 
           global outp
           outp = html.CODE(captured_output)
-          outp.classList=["code-block language-python hljs runner"]
+          outp.classList=["code-block language-python hljs hljs runner"]
 
 
       def run_in_browser(event, code_block):
@@ -82,7 +82,7 @@
           dock.classList = ["dock"]
           e.parentNode.insertBefore(dock, e.nextSibling.nextSibling.nextSibling)
           def de(event,c):
-            #done.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.outerHTML="<code class='code-block language-python hljs'>"+done.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.textContent+"</code>"
+            #done.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.outerHTML="<code class='code-block language-python hljs hljs'>"+done.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.textContent+"</code>"
               run_in_browser2(event, done.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.previousSibling)
               done.parentNode.parentNode.removeChild(c.previousSibling)
               c.style={"display": "block"}
@@ -151,6 +151,101 @@
         </main>
         <main id="code" class="">
             <h3 class="head">Code</h3>
+            <h4 class="date-data"><span class="date">3 April 2023</span> Review of Python // Day 3 - Strings</h4>
+            <div class="codeh">
+                <h4>1. String functions</h4>
+                <pre><code class="code-block language-python hljs">#a test string
+# Bro = Mr. sharma btw
+t="Bros IQ is room temperature in celsius scale"
+
+# .isalpha(): returns true if the tring has only alphabets
+print("abc".isalpha())
+print("abc ".isalpha())
+print("abc21".isalpha())
+
+# .isdigit(): True if string has only digits 
+print("123".isdigit())
+
+# len(): length of string (spaces are also counted)
+print(len("hi :D"))
+
+# .split(seperator, maxsplit): string to list
+print(t.split())
+print(t.split("e"))
+print(t.split("e", 3)) #['Bros IQ is room t', 'mp', 'ratur', ' in celsius scale'] -> notice how it does not split on the e in celsius
+
+# .lower(): Converts all upper case letters to lower case
+print(t.lower())
+
+# .islower: Checks if every char is in lower case
+print("abc 123 sbs".islower())
+
+# .upper(): Converts all lower case letters to upper case
+print(t.upper())
+
+# .islower: Checks if every char is in upper case
+print("ABC 123 SDS".islower())
+
+# .find(substring, start, end): true if the given substing is found in the given range
+print(t.find("i"))
+print(t.find("i", 9))
+print(t.find("i", 0, 2)) # -1 if not found
+
+# .lstrip(string): remove the given substr from the left of the string or " " if no argument is given
+print("      ab".lstrip())
+print("hhhhhhxy".lstrip("h"))
+
+# .rstrip(string): remove the given substr from the right of the string or " " if no argument is given
+print("ab       ".rstrip())
+print("xy hhhhhhhhhhh".rstrip("h"))
+print("      ab".lstrip())
+print("xy    ".lstrip("c")) #returns the same substr?
+
+# .isspace(): BRO, THIS SHIT LITERALLY CHECKS IF THE STRING IS A SPACE. LIKE YOU COULD DO S==" "
+print(" ".isspace())
+print(" obviously not".isspace())
+
+# .istitle(): checks if a str is a title. Oh what is a title? well the first letter of wach word must be upper case and no special characters.
+print("This".istitle())
+print("This is not".istitle())
+print("This is @lso not".istitle())
+print("But This Is".istitle())
+
+# "substr".join(str): tbh very confusing, it takes in a string and joins each char in it with the given substr
+# substr will be what u want to seperate each char with
+# and str will be the main string
+print("#".join(t)) # you might be reminded of something from here
+
+# .swapcase(): It swaps upper case chars for lower case ones and vise-versa
+print(t.swapcase())
+
+# .partition(str): splits the string into 3 parts and returns a touple
+print(t.partition("IQ")) #notice how it returns a touple with 3 portions
+
+# 69TH LINE GG
+
+# .endswith(substr): checks if the string ends with the given substr
+print("abc  123 xyz".endswith("xyz"))
+print("abc  123 xyz".endswith("abc"))
+
+# .startswith(substr): checks if the string starts with the given substr
+print("abc  123 xyz".startswith("xyz"))
+print("abc  123 xyz".startswith("abc"))
+
+# ord(): ordinal value for string
+print(ord("A"))
+
+# chr(): character value for ordinal
+print(chr(69))
+
+#thats it</code></pre>
+            </div>
+            <div class="codeh">
+                <h4>2. Take a string from the user and replace space with # (according to someone, you really GOTTA TAKE THE # FROM THE USER TOO, YEAHHHH)</h4>
+                <pre><code class="code-block language-python hljs">s=input("Enter string -> ")
+l=s.replace(" ","#")
+print(l)</code></pre>
+            </div>
             <h4 class="date-data"><span class="date">20 March 2023</span> Review of Python // Day 2</h4>
             <div class="codeh">
                 <h4>1. WAP to calculate the income tax of employee on the basis of basic sallery and total savings subject to these conditions:<br>
@@ -163,7 +258,7 @@
                         </span>
 
                 </h4>
-                <pre><code class="code-block language-python">b=int(input("Enter basic pay -> "))
+                <pre><code class="code-block language-python hljs">b=int(input("Enter basic pay -> "))
 s=int(input("Enter saving -> "))
 t=0
 if b<=250000:
@@ -186,14 +281,14 @@ print(t)</code></pre>
             <h4 class="date-data"><span class="date">14 March 2023</span> Review of Python // Day 1</h4>
             <div class="codeh">
                 <h4>1. Some guy (forgot his name) borrowed Rs. 40,000 from some other guy. He wants to repay it after 6 years. Find the total amount he has to pay using simple interest. (bro literally gave us a math question in CS 💀💀)</h4>
-                <pre><code class="code-block language-python">p=40000 #principal amnt
+                <pre><code class="code-block language-python hljs">p=40000 #principal amnt
 r=8 #rate of interest
 t=6 #time in yrs
 print("Total amount at the end of 6 years:",p+((p*r*t)//100))</code></pre>
             </div>
             <div class="codeh">
                 <h4>2. Generate fibonacci series using while loop.</h4>
-                <pre><code class="code-block language-python">n=int(input("Enter the number of terms: "))
+                <pre><code class="code-block language-python hljs">n=int(input("Enter the number of terms: "))
 a=0
 b=1
 i=1
@@ -206,7 +301,7 @@ while i<=n:
             </div>
             <div class="codeh">
                 <h4>3. Find a raised to the power b.</h4>
-                <pre><code class="code-block language-python">a=int(input("Enter number -> "))
+                <pre><code class="code-block language-python hljs">a=int(input("Enter number -> "))
 b=int(input("Enter power -> "))
 ans=1
 for i in range(1,b+1):
@@ -215,7 +310,7 @@ print(a,"^",b,"=",ans)</code></pre>
             </div>
             <div class="codeh">
                 <h4>4. Print prime numbers between 2 & 200.</h4>
-                <pre><code class="code-block language-python">for i in range(2,201):
+                <pre><code class="code-block language-python hljs">for i in range(2,201):
     prm=True
     for j in range(2,(i//2)+1):
         if i%j!=0:
