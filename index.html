@@ -151,6 +151,66 @@
         </main>
         <main id="code" class="">
             <h3 class="head">Code</h3>
+            <h4 class="date-data"><span class="date">5 April 2023</span> Review of Python // Day 4 - Lists, Touples and Dictionaries</h4>
+            <div class="codeh">
+                <h4>1. WAP to take input from user in list.</h4>
+                <pre><code class="code-block language-python hljs">l=[]
+n=int(input("Enter no. -> "))
+for i in range(n):
+    l.append(int(input("-> ")))
+print(l)</code></pre>
+            </div>
+            <div class="codeh">
+                <h4>2. WAP to take input from user in touple.</h4>
+                <pre><code class="code-block language-python hljs">t=()
+n=int(input("Enter no. -> "))
+for i in range(n):
+    t+=(int(input("-> ")),)
+print(t)</code></pre>
+            </div>
+            <div class="codeh">
+                <h4>3. WAP to find min-max in list.</h4>
+                <pre><code class="code-block language-python hljs">l=[]
+n=int(input("Enter no. -> "))
+for i in range(n):
+    l.append(int(input("-> ")))
+print(l)
+maxm=0
+for i in l:
+    if i>maxm:
+        maxm=i
+minm=maxm
+for j in l:
+    if j < minm:
+        minm=j
+print("Maximum ->", maxm)
+print("Minimum ->", minm)</code></pre>
+            </div>
+            <div class="codeh">
+                <h4>4. WAP to take input from user in dictionary.</h4>
+                <pre><code class="code-block language-python hljs">d={}
+n=int(input("Enter no. of entries -> "))
+for i in range(n):
+    na=input("Enter name -> ")
+    cl=int(input("Enter class -> "))
+    rn=int(input("Enter roll no. -> "))
+    mh=int(input("Maths -> "))
+    ph=int(input("Physics -> "))
+    ch=int(input("Chemistry -> "))
+    l=[cl,rn]
+    t=(mh,ph,ch)
+    d.update({na:[l,t]})
+print(d)</code></pre>
+            </div>
+            <div class="codeh">
+                <h4>5. Sort a list</h4>
+                <pre><code class="code-block language-python hljs">l=[6,9,4,2,0]
+for i in range(len(l)):
+    for j in range(i-1,-1,-1):
+        if l[j+1] < l[j]:
+            l[j],l[j+1]=l[j+1],l[j]
+print(l)</code></pre>
+            </div>
             <h4 class="date-data"><span class="date">3 April 2023</span> Review of Python // Day 3 - Strings</h4>
             <div class="codeh">
                 <h4>1. String functions</h4>
