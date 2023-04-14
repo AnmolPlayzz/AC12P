@@ -1,0 +1,16 @@
+{
+  "name": "ac12p",
+  "version": "1.0.0",
+  "description": "<p align=\"center\"><img width=\"600px\" src=\"https://cdn.discordapp.com/attachments/904245641495060560/1080714516012216381/webs.png\"></p>\r <h1 align=\"center\">AC12P</h1>\r <p align=\"center\">All class 12 programs - A website listing all python programs I did in class 12. Originally built for term 2 of class 11th.",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx @11ty/eleventy",
+    "start": "npx @11ty/eleventy --serve",
+    "debug": "DEBUG=* npx @11ty/eleventy"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.1"
+  }
+}
