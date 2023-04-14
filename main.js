@@ -42,10 +42,10 @@ const drawer = document.querySelector(".drawer");
 
 
 mnav.addEventListener("click", () => {
-        // if drawer is closed, open it
-        mnav.style.transform = "translateY(100%)";
-        cross.style.transform = "translateY(0%)";
-        drawer.style.transform = "translateX(0%)";
+    // if drawer is closed, open it
+    mnav.style.transform = "translateY(100%)";
+    cross.style.transform = "translateY(0%)";
+    drawer.style.transform = "translateX(0%)";
 
 });
 
@@ -228,13 +228,5 @@ document.querySelectorAll("code").forEach(codeBlock => {
             }, 5000);
         });
     });
-    /*
-    var suggestBtn = document.createElement("button");
-    suggestBtn.innerHTML = "Suggest";
-    suggestBtn.style.marginLeft = "10px";
-    suggestBtn.classList.add("copy-btn")
-    codeBlock.parentNode.insertBefore(suggestBtn, codeBlock.nextSibling);
     codeBlock.parentNode.insertBefore(copyBtn, codeBlock.nextSibling);
-     */
-
 });
