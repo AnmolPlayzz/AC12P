@@ -151,6 +151,40 @@
         </main>
         <main id="code" class="">
             <h3 class="head">Code</h3>
+            <h4 class="date-data"><span class="date">17 April 2023</span> Functions // Day 4 - User Defined Functions - Passing Args + Default arguments</h4>
+            <div class="codeh">
+                <h4>1. Make some functions using args.</h4>
+                <pre><code class="code-block language-python hljs"># function defs ->
+def area_sqr(s=10):
+    ar=s*s
+    return ar
+
+def area_rect(a=10,b=20):
+    ar=a*b
+    return ar
+
+def addnum(a,b):
+    s=a+b
+    return s
+
+def expo(a,b=2):
+    e=1
+    for i in range(b):
+        e*=a
+    return e
+
+# function calls ->
+print("Area of sqr:",area_sqr())
+print("Area of sqr with args:",area_sqr(200))
+
+print("Area of rect:",area_rect())
+print("Area of rect with args:",area_rect(60,90))
+
+print("Add num:",addnum(7,2))
+
+print("Exponent:",expo(3))
+print("Exponent with second arg:",expo(3,5))</code></pre>
+            </div>
             <h4 class="date-data"><span class="date">13 April 2023</span> Functions // Day 3 - User Defined Functions</h4>
             <div class="codeh">
                 <h4>1. Make 3 functions: area of square, area of rectangle and sum of 2 numbers</h4>
