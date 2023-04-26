@@ -1,11 +1,18 @@
-addEventListener('DOMContentLoaded', (event) => {
-    window.scrollTo(0,1);
-});
+
 
 hljs.initHighlightingOnLoad();
 const anchorTags = document.querySelectorAll('.navbar__desktop a');
 const drawerTags = document.querySelectorAll(".drawer a")
 const info = document.querySelector('#nb_c2');
+const preTags = document.querySelectorAll('.module');
+preTags.forEach(preTag => {
+    const moduleName = preTag.getAttribute("data-module-name");
+    const scriptTag = document.createElement('script');
+    scriptTag.type = "text/python";
+    scriptTag.textContent = preTag.textContent;
+    scriptTag.setAttribute("id", moduleName);
+    preTag.insertAdjacentElement('afterend', scriptTag);
+});
 anchorTags.forEach(anchor => {
     anchor.addEventListener('click', function(event) {
 

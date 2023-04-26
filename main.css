@@ -1052,3 +1052,11 @@ code {
         overflow: hidden;
     }
 }
+
+.no-run .run-btn {
+    display: none;
+}
+
+.no-edit .edit-btn {
+    display: none;
+}
