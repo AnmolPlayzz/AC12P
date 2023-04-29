@@ -237,3 +237,11 @@ document.querySelectorAll("code").forEach(codeBlock => {
     });
     codeBlock.parentNode.insertBefore(copyBtn, codeBlock.nextSibling);
 });
+
+document.querySelector(".exp").addEventListener("click", function () {
+    anchorTags.forEach(tag => tag.classList.remove('active','active1'))
+    drawerTags.forEach(tag => tag.classList.remove('active','active1'));
+    document.querySelectorAll("a[href=\"#code\"]").forEach(l => {
+        l.classList.add('active', 'active1')
+    })
+});
