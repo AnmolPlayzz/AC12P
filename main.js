@@ -218,8 +218,19 @@ about.forEach((link) => {
 });
 
 //code/buttons
-
-const codeBlocks = document.querySelectorAll(".code-block");
+document.querySelectorAll(".codeh").forEach(codeBlock => {
+    const form = document.createElement("form")
+    form.classList.add("comment-form")
+    form.setAttribute("data-final-id",codeBlock.getAttribute("data-code-id"))
+    form.innerHTML='<label for="comment">Comment:</label>\n' +
+        '<textarea maxlength="150" id="comment" required></textarea>\n' +
+        '\n' +
+        '<button class="copy-btn post-btn" type="submit">Post</button>'
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault()
+    })
+    codeBlock.appendChild(form)
+});
 var code = document.querySelector("code").textContent;
 document.querySelectorAll("code").forEach(codeBlock => {
     var copyBtn = document.createElement("button");
@@ -235,6 +246,12 @@ document.querySelectorAll("code").forEach(codeBlock => {
             }, 5000);
         });
     });
+    /*
+    const div = document.createElement('div');
+    div.classList.add("all-com")
+    codeBlock.parentNode.parentNode.appendChild(div)
+
+     */
     codeBlock.parentNode.insertBefore(copyBtn, codeBlock.nextSibling);
 });
 
@@ -245,3 +262,183 @@ document.querySelector(".exp").addEventListener("click", function () {
         l.classList.add('active', 'active1')
     })
 });
+
+/*
+document.querySelectorAll(".codeh code").forEach(codeBlock => {
+    var cmt = document.createElement("button");
+    cmt.innerHTML = "Comment";
+    cmt.style.marginLeft = "10px";
+    cmt.classList.add("copy-btn", "com-btn")
+    cmt.addEventListener("click", function() {
+        console.log(codeBlock.parentNode.parentNode.getAttribute("data-code-id"))
+    });
+    codeBlock.parentNode.insertBefore(cmt, codeBlock.nextSibling);
+});
+*/
+// function to fetch all comments
+async function fetchComments() {
+    try {
+        const response = await fetch('/.netlify/functions/fetch-com');
+
+        if (response.ok) {
+            const comments = await response.json();
+            console.log(`Retrieved ${comments.length} comments`);
+            return comments;
+        } else {
+            console.error('Error fetching comments');
+            return [];
+        }
+    } catch (err) {
+        console.error(err);
+        return [];
+    }
+}
+
+// get all code blocks on the page
+const codeBlocks = document.querySelectorAll('.codeh');
+/*
+// fetch all comments and add them to their respective code blocks
+(async function() {
+    const comments = await fetchComments();
+    comments.forEach((commentObj) => {
+        const [com, key] = Object.entries(commentObj);
+        const comment = key[1]
+
+        console.log(key)
+        const codeBlock = document.querySelector(`[data-code-id="${comment.codeId}"] pre`);
+        if (codeBlock) {
+            const commentList = codeBlock.nextElementSibling.nextElementSibling;
+            const divItem = document.createElement('div');
+            divItem.classList.add("com-div")
+            const auth = document.createElement("h6")
+            auth.innerText=comment.uName
+            auth.classList.add("com-auth")
+            divItem.appendChild(auth)
+            const com = document.createElement("p")
+            com.innerText=comment.content
+            com.classList.add("com-text")
+            divItem.appendChild(com)
+            commentList.appendChild(divItem);
+        }
+    });
+})();
+
+ */
+
+function appendDiv() {
+    return new Promise((resolve, reject) => {
+        document.querySelectorAll("form").forEach(e => {
+            const div = document.createElement('div');
+            div.classList.add("all-com")
+            e.parentNode.appendChild(div)
+        })
+        resolve();
+    });
+}
+appendDiv().then(() => {
+    (async function () {
+        const comments = await fetchComments();
+        comments.forEach((commentObj) => {
+            const [com, key] = Object.entries(commentObj);
+            const comment = key[1]
+
+            console.log(key)
+            const codeBlock = document.querySelector(`[data-code-id="${comment.codeId}"]`);
+            if (codeBlock) {
+                const commentList = codeBlock.lastElementChild;
+                const divItem = document.createElement('div');
+                divItem.classList.add("com-div")
+                const auth = document.createElement("h6")
+                auth.innerText = comment.uName
+                auth.classList.add("com-auth")
+                divItem.appendChild(auth)
+                const com = document.createElement("p")
+                com.innerText = comment.content
+                com.classList.add("com-text")
+                divItem.appendChild(com)
+                commentList.appendChild(divItem);
+            }
+        });
+    })();
+});
+
+
+document.querySelectorAll(".post-btn").forEach(btn => {
+    btn.addEventListener("click", async function() {
+        const user = netlifyIdentity.currentUser();
+        if (user) {
+            if (btn.previousElementSibling.value && btn.previousElementSibling.value.trim().length != 0) {
+                const formData = {
+                    codeId: `${btn.parentNode.getAttribute("data-final-id")}`,
+                    content: `${btn.previousElementSibling.value}`,
+                    uEmail: `${user.email}`,
+                    uName: `${user.user_metadata.full_name}`
+                };
+                console.log(JSON.stringify(formData))
+
+                const response = await fetch('/.netlify/functions/post-com', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${netlifyIdentity.currentUser().token.access_token}`
+                    },
+                    body: `${JSON.stringify(formData)}`,
+                });
+
+                const result = await response.json();
+                console.log(result)
+                await fetchComments()
+                const codeBlocks = document.querySelectorAll('.codeh');
+                await (async function () {
+                    const comments = await fetchComments();
+                    const blocks = document.querySelectorAll(`.codeh > .all-com`);
+
+                    blocks.forEach((b) => {
+                        console.log(b)
+                        b.parentNode.removeChild(b)
+                    })
+                    document.querySelectorAll("form").forEach(codeBlock => {
+                        const div = document.createElement('div');
+                        div.classList.add("all-com")
+                        codeBlock.parentNode.appendChild(div)
+                    });
+                    comments.forEach((commentObj) => {
+                        const [com, key] = Object.entries(commentObj);
+                        const comment = key[1]
+
+                        console.log(key)
+                        const codeBlock = document.querySelector(`[data-code-id="${comment.codeId}"]`);
+                        if (codeBlock) {
+                            const commentList = codeBlock.lastElementChild;
+                            console.log(commentList)
+                            const divItem = document.createElement('div');
+                            divItem.classList.add("com-div")
+                            const auth = document.createElement("h6")
+                            auth.innerText = comment.uName
+                            auth.classList.add("com-auth")
+                            divItem.appendChild(auth)
+                            const com = document.createElement("p")
+                            com.innerText = comment.content
+                            com.classList.add("com-text")
+                            divItem.appendChild(com)
+                            commentList.appendChild(divItem);
+                        }
+                    });
+
+
+                })();
+            } else {
+                alert("Invalid text.")
+            }
+        } else {
+            alert("Sign up/Log in to comment.")
+
+            console.log('User is not logged in');
+        }
+        console.log(btn.parentNode.getAttribute("data-final-id"))
+    });
+});
+
+
+// connect to WebSocket and listen for new comments
+

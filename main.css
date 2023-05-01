@@ -545,6 +545,36 @@ main {
     content: "";
 }
 
+.no-com .com-btn {
+    display: none;
+}
+
+.com-head {
+    font-size: 22px;
+}
+
+.com-div {
+    background: #2f2f2f;
+    padding: 10px 20px;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+.com-auth {
+    color: #d5d5d5;
+    margin: 6px 0px;
+    font-size: 18px;
+    background: #252525;
+    width: fit-content;
+    padding: 5px 8px;
+    border-radius: 5px;
+}
+
+.com-text {
+    margin: 5px 0;
+    color: #c0c0c0;
+}
+
 @keyframes codeanim1 {
     0% {transform: scaleX(0%);
         transform-origin: left}
@@ -694,6 +724,39 @@ code {
     margin: 0;
 }
 
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    z-index: 500;
+    border-radius: 10px;
+}
+
+.comment-form label {
+    color: white;
+    font-size: 18px;
+    margin: 6px 0;
+}
+
+.comment-form textarea {
+    background: rgba(242, 242, 242, 0.15);
+    border: 0;
+    outline: none;
+    color: white;
+    margin: 6px 0;
+    border-radius: 5px;
+    padding: 12px;
+    resize: none;
+}
+.comment-form button {
+    width: fit-content;
+    padding: 9px 15px;
+    margin-top: 10px;
+    border: 0;
+    border-radius: 5px;
+    background: #212121;
+}
+
+
 @keyframes terminalload {
     0% {
         transform: translateY(10%);
@@ -704,6 +767,7 @@ code {
         opacity: 1;
     }
 }
+
 
 
 @keyframes opacityup {
