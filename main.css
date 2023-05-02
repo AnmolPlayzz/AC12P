@@ -756,6 +756,9 @@ code {
     background: #212121;
 }
 
+.no-ps::after, .no-ps::before {
+    content: none !important;
+}
 
 @keyframes terminalload {
     0% {
