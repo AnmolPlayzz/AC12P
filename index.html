@@ -21,6 +21,21 @@
     <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
 </head>
 <body onload="brython()">
+<div class="comment-rules">
+    <div>
+        <h2>Commenting <br>guidelines.</h2>
+        <p style="margin-bottom: 26px">Before you post some disgusting shit, be sure to read the rules:</p>
+
+        <p >1. Keep it clean, but not too clean. A little fucking swearing is allowed, but don't go full potty-mouth on me.<br /><br>
+            2. Be nice, or at least pretend to be. No personal attacks, or general douchebaggery allowed.<br /><br>
+            3. Stay on topic, unless you're really fucking hilarious. Then I'll allow a little off-topic banter.<br /><br>
+            4. No spamming, I'll shove a banana up your ass if I find you spamming my database with bullshit.<br /><br>
+            5. Use your brain, even if it's the size of a pea. I will delete any comments (and individuals) that are just plain stupid.<br /><br>
+            6. No self promo, <a href="https://adsense.google.com/start/">https://adsense.google.com/start/</a> way better.<br /><br>
+            7. No explicit content, otherwise I'll report you for terrorism to the government.</p>
+    </div>
+    <div></div>
+</div>
 <script type="text/python">
       from browser import document, html, window
       import sys
@@ -162,13 +177,26 @@
         <main id="code" class="">
 
             <h3 class="head">Code</h3>
-            <h4 class="date-data"><span class="date">28 April 2023</span> Functions // Day 7 - Global and Local scopes</h4>
+            <h4 class="date-data"><span class="date">2 May 2023</span> Functions // Day 6 - Functions + Dictionaries</h4>
+            <div class="codeh" data-code-id="18">
+                <h4>1. WAP to create a dictionary.</h4>
+                <pre><code class="code-block language-python hljs">def makedic(n):
+    l={}
+    for i in range(n):
+        h=eval(input("Enter key -> "))
+        k=eval(input("Enter value -> "))
+        l.update({h:k})
+    return l
+print(makedic(2))</code></pre>
+            </div>
+            <h4 class="date-data"><span class="date">28 April 2023</span> Functions // Day 5 - Global and Local scopes</h4>
             <div class="codeh" data-code-id="17">
-                <h4>2. Write a program to demonstrate local and global scopes. <br><br><span class="tag">by Aryaman Sharma</span></h4>
+                <h4>1. Write a program to demonstrate local and global scopes. <br><br><span class="tag">by Aryaman Sharma</span></h4>
                 <pre><code class="code-block language-python hljs">G=10 #glboal variable intially taken
 
 def localvariable():
     G=15 #this value is local therefore only in this function will the value of G be 15
+    return G
 def joseph():
     global G #global functions makes it so that G=20 is the new official value of G all over the code, calling is essential however
     G=20
@@ -189,7 +217,7 @@ print(G) #yield should be 40
 #although value of G is sustained for local for e.g.
 print(localvariable())</code></pre>
             </div>
-            <h4 class="date-data"><span class="date">26 April 2023</span> Functions // Day 6 - Returning multiple values from a function</h4>
+            <h4 class="date-data"><span class="date">26 April 2023</span> Functions // Day 4 - Returning multiple values from a function</h4>
             <div class="codeh" data-code-id="16">
                 <h4>1. Create a function to add and subtract values and return the both of these values.</h4>
                 <pre><code class="code-block language-python hljs">def func(a,b):
@@ -199,7 +227,7 @@ print(localvariable())</code></pre>
 a,b=func(420,69)
 print(a,b,sep="\n")</code></pre>
             </div>
-            <h4 class="date-data"><span class="date">24 April 2023</span> Functions // Day 5 - Importing Functions</h4>
+            <h4 class="date-data"><span class="date">24 April 2023</span> Functions // Day 3 - Importing Functions</h4>
             <div class="codeh" data-code-id="15">
                 <h4>1. Import a function from a file.</h4>
                 <pre class="no-run no-edit no-com"><code class="code-block language-python hljs module" data-module-name="modl">def func(a,b):
@@ -208,7 +236,7 @@ print(a,b,sep="\n")</code></pre>
                 <pre><code class="code-block language-python hljs">from modl import func
 print(func(10,20))</code></pre>
             </div>
-            <h4 class="date-data"><span class="date">17 April 2023</span> Functions // Day 4 - User Defined Functions - Passing Args + Default arguments</h4>
+            <h4 class="date-data"><span class="date">17 April 2023</span> Functions // Day 2 - User Defined Functions - Passing Args + Default arguments</h4>
             <div class="codeh" data-code-id="14">
                 <h4>1. Make some functions using args.</h4>
                 <pre><code class="code-block language-python hljs"># function defs ->
@@ -242,7 +270,7 @@ print("Add num:",addnum(7,2))
 print("Exponent:",expo(3))
 print("Exponent with second arg:",expo(3,5))</code></pre>
             </div>
-            <h4 class="date-data"><span class="date">13 April 2023</span> Functions // Day 3 - User Defined Functions</h4>
+            <h4 class="date-data"><span class="date">13 April 2023</span> Functions // Day 1 - User Defined Functions</h4>
             <div class="codeh" data-code-id="13">
                 <h4>1. Make 3 functions: area of square, area of rectangle and sum of 2 numbers</h4>
                 <pre><code class="code-block language-python hljs">def area_sqr():
@@ -332,7 +360,7 @@ print("abc".isalpha())
 print("abc ".isalpha())
 print("abc21".isalpha())
 
-# .isdigit(): True if string has only digits 
+# .isdigit(): True if string has only digits
 print("123".isdigit())
 
 # len(): length of string (spaces are also counted)
@@ -564,6 +592,7 @@ print(a,"^",b,"=",ans)</code></pre>
                 <div class="ver">
                     <h5>Version Info</h5>
                     <p style="font-size: 18px; padding-top: 10px;">
+                        <span class="latest">LATEST</span>
                         [1 May 2023] Version 4.5<br>
                         <br>
                         <span style="font-size: 17px; font-weight: bolder;">What's new?<br></span>
@@ -571,7 +600,6 @@ print(a,"^",b,"=",ans)</code></pre>
 Comment feature (I want to explode)
 </span>
                     <p style="font-size: 18px; padding-top: 10px;">
-                        <span class="latest">LATEST</span>
                         [29 April 2023] Version 4.4<br>
                         <br>
                         <span style="font-size: 17px; font-weight: bolder;">What's new?<br></span>

@@ -760,6 +760,51 @@ code {
     content: none !important;
 }
 
+.comment-rules {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 600;
+    max-width: 600px;
+    border-radius: 9px;
+    backdrop-filter: blur(60px);
+    background: rgba(0, 0, 0, 0.48);
+    border: 1px solid rgba(0, 0, 0, 0.31);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 90vw;
+}
+
+.comment-rules div {
+    padding: 50px;
+    color: white;
+}
+
+.comment-rules h2 {
+    margin: 0;
+    font-size: 40px;
+    text-align: left;
+}
+
+.comment-rules div p:nth-child(2) {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.comment-rules div p:nth-child(3) {
+    color: rgba(255, 255, 255, 0.84);
+    height: 30vh;
+    overflow-y: scroll;
+}
+
+.comment-rules div:nth-child(2) {
+    position: absolute;
+    color: black;
+    width: 100vw;
+    height: 100vh;
+}
+
 @keyframes terminalload {
     0% {
         transform: translateY(10%);
