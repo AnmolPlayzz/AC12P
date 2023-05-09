@@ -366,6 +366,7 @@ appendDiv().then(() => {
 document.querySelectorAll(".post-btn").forEach(btn => {
     btn.addEventListener("click", async function() {
         const user = netlifyIdentity.currentUser();
+        btn.disabled=true
         if (user) {
             if (btn.previousElementSibling.value && btn.previousElementSibling.value.trim().length != 0) {
                 const formData = {
@@ -427,6 +428,7 @@ document.querySelectorAll(".post-btn").forEach(btn => {
 
 
                 })();
+
             } else {
                 alert("Invalid text.")
             }
@@ -436,9 +438,16 @@ document.querySelectorAll(".post-btn").forEach(btn => {
             console.log('User is not logged in');
         }
         console.log(btn.parentNode.getAttribute("data-final-id"))
+        btn.disabled=false
     });
 });
 
-
 // connect to WebSocket and listen for new comments
+if (localStorage.getItem("accepted")==="0") {
+    document.querySelector(".comment-rules").style.display="flex"
+    document.querySelector(".com-rules-acc").addEventListener("click", () => {
+        localStorage.setItem("accepted", "1");
+        document.querySelector(".comment-rules").style.display="none"
+    })
+}
 
