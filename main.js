@@ -443,7 +443,7 @@ document.querySelectorAll(".post-btn").forEach(btn => {
 });
 
 // connect to WebSocket and listen for new comments
-if (localStorage.getItem("accepted")==="0") {
+if (localStorage.getItem("accepted")===null) {
     document.querySelector(".comment-rules").style.display="flex"
     document.querySelector(".com-rules-acc").addEventListener("click", () => {
         localStorage.setItem("accepted", "1");
