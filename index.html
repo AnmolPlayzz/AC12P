@@ -225,6 +225,71 @@ for e in document.querySelectorAll("code"):
         <main id="code" class="">
 
             <h3 class="head">Code</h3>
+            <h4 class="date-data"><span class="date">4 July 2023</span> Revision // Practice Questions.</h4>
+            <div class="codeh" data-code-id="27">
+                <h4>1. WAP to take a string from the user till the user enters 'END'. Save the data to a file "myfile.txt" and display only sentences starting with Uppercase alphabets.</h4>
+                <pre class="no-edit no-run"><code class="code-block language-plaintext hljs" data-file="myfile.txt"></code></pre>
+                <pre><code class="code-block language-python hljs">f=open("myfile.txt","w")
+l=""
+while True:
+    inp=input("-> ")
+    if inp!="END":
+        l=l+inp+"\n" #we use `\n` to create a new line
+    else:
+        f.write(l)
+        f.close()
+        break
+g=open("myfile.txt","r")
+s=g.readlines()
+for i in s:
+    if i[0].isupper():
+        print(i,end="")
+g.close()</code></pre>
+            </div>
+            <div class="codeh" data-code-id="26">
+                <h4>2. Write a function to take a string as a parameter and return the number of vowels as a dictionary.</h4>
+                <pre><code class="code-block language-python hljs">def count(a):
+    c=0
+    for i in a:
+        if i in "aeiouAEIOU":
+            c+=1
+    return {"vowels":c}
+print(count("random string"))</code></pre>
+            </div>
+            <h4 class="date-data"><span class="date">3 July 2023</span> File Handling // Day 2 - Practice Questions.</h4>
+            <div class="codeh" data-code-id="25">
+                <h4>1. WAP to count the number of words in a text file.</h4>
+                <pre class="no-edit no-run"><code class="code-block language-plaintext hljs create-file" data-file="textfile.txt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tempus, arcu in dapibus iaculis, felis sapien congue felis, et pretium lectus. </code></pre>
+                <pre><code class="code-block language-python hljs">f=open("textfile.txt","r")
+s=f.read()
+l=s.split()
+print("Number of words ->",len(l))
+f.close()</code></pre>
+            </div>
+            <div class="codeh" data-code-id="24">
+                <h4>2. WAP to count the number of words starting with a particular ("a" for this example) letter in a text file. </h4>
+                <pre class="no-edit no-run"><code class="code-block language-plaintext hljs create-file" data-file="textfile.txt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tempus, arcu in dapibus iaculis, felis sapien congue felis, et pretium lectus. </code></pre>
+                <pre><code class="code-block language-python hljs">f=open("textfile.txt","r")
+s=f.read()
+l=s.split()
+c=0
+for i in l:
+    if i[0]=="a":
+        c+=1
+print("Number of words starting with 'a' ->",c)
+f.close()</code></pre>
+            </div>
+            <div class="codeh" data-code-id="23">
+                <h4>3. WAP to create a copy of a text file.</h4>
+                <pre class="no-edit no-run"><p class="filename">original.txt</p><code class="code-block language-plaintext hljs create-file no-mr" data-file="original.txt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tempus, arcu in dapibus iaculis, felis sapien congue felis, et pretium lectus.</code></pre>
+                <pre class="no-edit no-run"><p class="filename">copy.txt</p><code class="code-block language-plaintext hljs no-mr" data-file="copy.txt"></code></pre>
+                <pre><code class="code-block language-python hljs">f=open("original.txt","r")
+s=f.read()
+g=open("copy.txt","w")
+g.write(s)
+g.close()
+f.close()</code></pre>
+            </div>
             <h4 class="date-data"><span class="date">10 May 2023</span> File Handling // Day 1 - The basics.</h4>
             <div class="codeh" data-code-id="22">
                 <h4>1. WAP to create a text file.</h4>
