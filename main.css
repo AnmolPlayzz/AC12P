@@ -297,11 +297,15 @@ a:hover::after {
     height: 100vh;
     /*
     background-image: radial-gradient(50% 50%, rgba(0, 0, 0, 0) 20.46%, rgba(0, 0, 0, 1) 100%), url("assets/bg.svg");
+     */
+    /*
+
+    background: linear-gradient(180deg, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 0) 100%),linear-gradient(90deg, rgba(255, 122, 61, 1) 0%, rgba(255, 61, 61, 1) 100%);
+     */
+    background-image: url("/assets/bg-f.png");
     background-size: cover;
     background-position: 50%;
     background-repeat: no-repeat;
-
-     */
     overflow: hidden;
 }
 
@@ -441,10 +445,8 @@ a:hover::after {
         display: none;
     }
     #home{
-        background-image: url("assets/bg-home-min.png");
         background-repeat: no-repeat;
-        background-size: 100%;
-        background-position: 50% bottom;
+        background-size: cover;
     }
 }
 

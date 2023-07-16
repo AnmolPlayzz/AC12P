@@ -223,7 +223,7 @@ document.querySelectorAll(".codeh").forEach(codeBlock => {
     form.classList.add("comment-form")
     form.setAttribute("data-final-id",codeBlock.getAttribute("data-code-id"))
     form.innerHTML='<label for="comment">Comment:</label>\n' +
-        '<textarea maxlength="150" id="comment" required></textarea>\n' +
+        '<textarea maxlength="969" id="comment" required></textarea>\n' +
         '\n' +
         '<button class="copy-btn post-btn" type="submit">Post</button>'
     form.addEventListener("submit", async (e) => {

@@ -212,7 +212,6 @@ for e in document.querySelectorAll("code"):
                 <h1>All Class<br>12 Programs.</h1>
                 <a class="exp" href="#code">Explore ></a>
             </div>
-            <spline-viewer loading-anim url="https://prod.spline.design/PacbbIBX7-tpxTSW/scene.splinecode" class="spline"></spline-viewer>
             <!---
             <div>
                 <img class="code" src="assets/code.png">
@@ -220,14 +219,141 @@ for e in document.querySelectorAll("code"):
             </div>
             <p>All programs done in class 12.</p>
             --->
-            <h2>Press and drag to orbit.</h2>
         </main>
         <main id="code" class="">
 
             <h3 class="head">Code</h3>
+            <h4 class="date-data"><span class="date">14 July 2023</span> File Handling // Day 5 - Binary files.</h4>
+            <div class="codeh" data-code-id="32">
+                <h4>1. WAP to delete the records of the binary file created the previous day.</h4>
+                <pre class="no-edit no-run">No file preview available.</pre>
+                <pre><code class="code-block language-python hljs">import pickle as p
+f=open("shinto.dat","rb")
+l=[]
+print("R. NO.\tNAME\tCLASS\tSTREAM")
+while True:
+    try:
+        rec=p.load(f)
+        l.append(rec)
+        r,n,c,s=rec
+        print(r,n,c,s,sep="\t")
+    except:
+        f.close()
+        break
+f=open("shinto.dat","wb")
+rno=int(input("Enter roll number of student to be removed -> "))
+for j in l:
+    if j[0]==rno:
+        pass
+    else:
+        p.dump(j,f)
+f.close()</code></pre>
+            </div>
+            <h4 class="date-data"><span class="date">13 July 2023</span> File Handling // Day 4 - Binary files.</h4>
+            <div class="codeh" data-code-id="31">
+                <h4>1. WAP to search the records of the binary file created the previous day.</h4>
+                <pre class="no-edit no-run">No file preview available.</pre>
+                <pre><code class="code-block language-python hljs">import pickle as p
+
+f = open("shinto.dat", "rb")
+l = []
+n = int(input("Enter roll number -> "))
+# implement searching based on other factors
+while True:
+    try:
+        rec = p.load(f)
+        l.append(rec)
+    except:
+        f.close()
+        break
+print("R. NO.\tNAME\tCLASS\tSTREAM")
+for i in l:
+    if i[0] == n:
+        r, n, c, s = i
+        print(r, n, c, s, sep="\t")
+</code></pre>
+            </div>
+            <div class="codeh" data-code-id="30">
+                <h4>2. WAP to modify the records of the binary file created the previous day.</h4>
+                <pre class="no-edit no-run">No file preview available.</pre>
+                <pre><code class="code-block language-python hljs"># the one im showing here is quite a complicated version, you can go for something simple
+import pickle as p
+f=open("shinto.dat","rb")
+l=[]
+while True:
+    try:
+        rec=p.load(f)
+        l.append(rec)
+        r,n,c,s=rec
+        print(r,n,c,s,sep="\t")
+    except:
+        f.close()
+        break
+
+n=int(input("Enter Roll number of student whos data is to be modified -> "))
+s=0
+for i in l:
+    if i[0]==n:
+        s=1
+        print("   Enter field to modify\n   1 - Name\n   2 - Class\n   3 - Stream")
+        mode=int(input("    -> "))
+        if mode==1:
+            h=input("   Enter new name ->")
+            i[1]=h
+        elif mode==2:
+            h=int(input("   Enter new class ->"))
+            i[2]=h
+        elif mode==3:
+            h=input("   Enter new stream ->")
+            i[3]=h
+        else:
+            print("   invalid input!")
+        break
+    else:
+        s=0
+if s==1:
+    f=open("shinto.dat","wb")
+    for i in l:
+        p.dump(i,f)
+    f.close()
+else:
+    print("Record not found!")</code></pre>
+            </div>
+            <h4 class="date-data"><span class="date">12 July 2023</span> File Handling // Day 3 - Binary files.</h4>
+            <div class="codeh" data-code-id="29">
+                <h4>1. WAP to take lists of data and add them to a binary file <br><br><span class="tag">by Aryaman Sharma</span></h4>
+                <pre class="no-edit no-run">No file preview available.</pre>
+                <pre><code class="code-block language-python hljs">import pickle
+f=open("shinto.dat","wb")
+l=[]
+while True:
+    n=input("Enter name ->")
+    if n.lower()=="end":
+        break
+    c=int(input("Enter class ->"))
+    r=int(input("Enter roll no ->"))
+    s=input("Enter stream ->")
+    l=[r,n,c,s]
+    pickle.dump(l,f)
+f.close()</code></pre>
+            </div>
+            <div class="codeh" data-code-id="28">
+                <h4>2. WAP to read the binary file just created.</h4>
+                <pre class="no-edit no-run">No file preview available.</pre>
+                <pre><code class="code-block language-python hljs">import pickle as p
+f=open("shinto.dat","rb")
+print("R. NO.\tNAME\tCLASS\tSTREAM")
+while True:
+    try:
+        r,n,c,s=p.load(f)
+        print(r,n,c,s,sep="\t")
+    except:
+        f.close()
+        break</code></pre>
+            </div>
             <h4 class="date-data"><span class="date">4 July 2023</span> Revision // Practice Questions.</h4>
             <div class="codeh" data-code-id="27">
-                <h4>1. WAP to take a string from the user till the user enters 'END'. Save the data to a file "myfile.txt" and display only sentences starting with Uppercase alphabets.</h4>
+                <h4>1. WAP to take a string from the user till the user enters 'END'. Save the data to a file "myfile.txt" and display only sentences starting with Uppercase alphabets.<br><br><span class="tag">question by Aryaman Sharma</span></h4>
                 <pre class="no-edit no-run"><code class="code-block language-plaintext hljs" data-file="myfile.txt"></code></pre>
                 <pre><code class="code-block language-python hljs">f=open("myfile.txt","w")
 l=""
@@ -247,13 +373,14 @@ for i in s:
 g.close()</code></pre>
             </div>
             <div class="codeh" data-code-id="26">
-                <h4>2. Write a function to take a string as a parameter and return the number of vowels as a dictionary.</h4>
+                <h4>2. Write a function to take a string as a parameter and return the number of vowels as a dictionary.<br><br><span class="tag">question by Aryaman Sharma</span></h4>
                 <pre><code class="code-block language-python hljs">def count(a):
-    c=0
+    d={"a":0,"e":0,"i":0,"o":0,"u":0}
     for i in a:
         if i in "aeiouAEIOU":
-            c+=1
-    return {"vowels":c}
+            c=d.get(i)
+            d.update({i.lower():c+1})
+    return d
 print(count("random string"))</code></pre>
             </div>
             <h4 class="date-data"><span class="date">3 July 2023</span> File Handling // Day 2 - Practice Questions.</h4>
@@ -746,6 +873,13 @@ print(a,"^",b,"=",ans)</code></pre>
                     <h5>Version Info</h5>
                     <p style="font-size: 18px; padding-top: 10px;">
                         <span class="latest">LATEST</span>
+                        [16 July 2023] Version 4.8<br>
+                        <br>
+                        <span style="font-size: 17px; font-weight: bolder;">What's new?<br></span>
+                        <span style="font-size: 15px">
+- New home page (removed the 3D model bcz it was lagging the website on many devices)<br>
+- Raise the character limit for comments to precisely 969 characters (nice.)</span>
+                    <p style="font-size: 18px; padding-top: 10px;">
                         [19 May 2023] Version 4.7<br>
                         <br>
                         <span style="font-size: 17px; font-weight: bolder;">What's new?<br></span>
