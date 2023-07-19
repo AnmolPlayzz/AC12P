@@ -223,6 +223,60 @@ for e in document.querySelectorAll("code"):
         <main id="code" class="">
 
             <h3 class="head">Code</h3>
+            <h4 class="date-data"><span class="date">19 July 2023</span> File Handling // Day 7 - Binary files.</h4>
+            <div class="codeh" data-code-id="32">
+                <h4>1. WAP to insert a record into a binary file. (Without deleting the old data, no you can't use append - it won't work.)</h4>
+                <pre class="no-edit no-run">No file preview available.</pre>
+                <pre><code class="code-block language-python hljs">import pickle as p
+f=open("shinto.dat","rb")
+l=[]
+while True:
+    try:
+        h=p.load(f)
+        l.append(h)
+    except EOFError:
+        f.close()
+        break
+n=input("Enter name ->")
+c=int(input("Enter class ->"))
+r=int(input("Enter roll no ->"))
+s=input("Enter stream ->")
+l.append([r,n,c,s])
+f=open("shinto.dat","wb")
+for j in l:
+    p.dump(j,f)
+f.close()</code></pre>
+            </div>
+            <h4 class="date-data"><span class="date">18 July 2023</span> File Handling // Day 6 - Binary files.</h4>
+            <div class="codeh" data-code-id="33">
+                <h4>1. A file result.dat has names with their marks in english, maths and CS. Write a function called display() to display all students who scored 90+ in all 3 subjects.</h4>
+                <pre class="no-edit no-run"><p class="filename">result.dat [processed]</p><code class="code-block language-plaintext hljs no-mr">[['Anmol',93,94,95],['Raghav',95,96,97],['Daksh',87,83,92]]</code></pre>
+                <script type="text/python">
+import pickle as p
+f=open("result.dat","wb")
+l=[['Anmol',93,94,95],['Raghav',95,96,97],['Daksh',87,83,92]]
+for i in l:
+    p.dump(i,f)
+f.close()
+                </script>
+                <pre><code class="code-block language-python hljs">import pickle as p
+def result():
+    f=open("result.dat","rb")
+    l=[]
+    while True:
+        try:
+            rec=p.load(f)
+            l.append(rec)
+        except:
+            f.close()
+            break
+    for i in l:
+        if i[1]>=90 and i[2]>=90 and i[3]>=90:
+            for j in i:
+                print(j,end="\t")
+            print()
+result()</code></pre>
+            </div>
             <h4 class="date-data"><span class="date">14 July 2023</span> File Handling // Day 5 - Binary files.</h4>
             <div class="codeh" data-code-id="32">
                 <h4>1. WAP to delete the records of the binary file created the previous day.</h4>
