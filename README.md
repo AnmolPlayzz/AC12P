@@ -9,8 +9,8 @@
 
 <h2>Found a bug?</h2>
 
-- If you're someone I know over the internet/some stranger, open a issue/contact me on Discord (Anmol#4838).
+- If you're someone I know over the internet/some stranger, open a issue/contact me on Discord (iam.anmol).
 
-- If you're someone I know IRL, DM me on WhatsApp/SnapChat/Instagram/whatever the fuck you want to except reddit, I don't check that. I know ur lazy u won't open a issue.
+- If you're someone I know IRL, DM me on WhatsApp/Instagram/whatever the fuck you want to except reddit, I don't check that. I know ur lazy u won't open a issue.
 
 Made with HTML, CSS, JavaScript, Python, Brython and ❤ by @AnmolPlayzz
