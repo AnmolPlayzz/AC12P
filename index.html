@@ -19,96 +19,191 @@
     <script type="module" src="https://unpkg.com/@splinetool/viewer@0.9.312/build/spline-viewer.js"></script>
     <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script src="https://cdn.ably.com/lib/ably.min-1.js"></script>
+
 </head>
 <body onload="brython()">
+<div class="comment-rules">
+    <div>
+        <h2>Commenting <br>guidelines.</h2>
+        <p style="margin-bottom: 26px">Before you post some disgusting shit, be sure to read the rules:</p>
+
+        <p >1. Keep it clean, but not too clean. A little fucking swearing is allowed, but don't go full potty-mouth on me.<br /><br>
+            2. Be nice, or at least pretend to be. No personal attacks, or general douchebaggery allowed.<br /><br>
+            3. Stay on topic, unless you're really fucking hilarious. Then I'll allow a little off-topic banter.<br /><br>
+            4. No spamming, I'll shove a banana up your ass if I find you spamming my database with bullshit.<br /><br>
+            5. Use your brain, even if it's the size of a pea. I will delete any comments (and individuals) that are just plain stupid.<br /><br>
+            6. No self promo, <a href="https://adsense.google.com/start/">https://adsense.google.com/start/</a> way better.<br /><br>
+            7. No explicit content, otherwise I'll report you for terrorism to the government.</p>
+        <button class="com-rules-acc">Okay!</button>
+    </div>
+</div>
 <script type="text/python">
-      from browser import document, html, window
-      import sys
-      import traceback
-      from io import StringIO
-      import contextlib
+from browser import document, html, window
+import sys
+import traceback
+from io import StringIO
+import contextlib
 
-      def exec_with_captured_stdout(code):
-          old_stdout = sys.stdout
-          sys.stdout = StringIO()
+class FileWrapper:
+    def __init__(self, file, newline="\n"):
+        self.file = file
+        self.contents = None
+        self.nl = newline
 
-          try:
-              exec(code)
-          except Exception as e:
-              sys.stdout.write(traceback.format_exc())
-          captured_output = sys.stdout.getvalue()
-          sys.stdout.close()
-          sys.stdout = old_stdout
+    def write(self, text):
+        self.contents = text
+        with open(self.file, 'w') as f:
+            f.write(text)
+        self.update_html_content()
 
-          print("StdOut:",captured_output)
+    def writelines(self, lines):
+        self.contents = '\n'.join(lines)
+        with open(self.file, 'w') as f:
+            f.write('\n'.join(lines))
+        self.update_html_content()
 
-          global outp
-          outp = html.CODE(captured_output)
-          outp.classList=["code-block language-python hljs hljs runner"]
+    def close(self):
+        pass
 
+    def update_html_content(self):
+        elements = document.querySelectorAll('[data-file="{0}"]'.format(self.file))
+        for element in elements:
+            element.text = self.contents
 
-      def run_in_browser(event, code_block):
-          exec_with_captured_stdout(code_block.text)
-          print(code_block)
-          code_block.parentNode.insertBefore(outp, code_block.nextSibling.nextSibling.nextSibling.nextSibling)
-      def run_in_browser2(event, code_block):
-          exec_with_captured_stdout(code_block.text)
-          print(code_block)
-          code_block.parentNode.insertBefore(outp, code_block.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling)
+class CSVWrapper:
+    def __init__(self, file, newline="\n", delimiter=","):
+        self.file = file
+        self.contents = None
+        self.nl = newline
+        self.delimiter = delimiter
 
+    def write(self, rows):
+        if self.contents is None:
+            self.contents = ""
+        else:
+            self.contents += self.nl
+        self.contents += self.nl.join([self.delimiter.join(row) for row in rows])
+        with open(self.file, 'w') as f:
+            f.write(self.contents)
+        self.update_html_content()
 
-      for code_block in document.querySelectorAll(".code-block"):
-          run_btn = html.BUTTON("Run")
-          run_btn.style = {"margin-left": "10px"}
-          run_btn.classList = ["run-btn copy-btn"]
-          run_btn.bind("click", lambda event, c=code_block: run_in_browser(event, c))
-          code_block.parentNode.insertBefore(run_btn, code_block.nextSibling)
+    def close(self):
+        pass
 
+    def update_html_content(self):
+        elements = document.querySelectorAll('[data-file="{0}"]'.format(self.file))
+        for element in elements:
+            element.text = self.contents
 
-      for code_block in document.querySelectorAll(".code-block"):
-          edit_btn = html.BUTTON("Edit")
-          edit_btn.style = {"margin-left": "10px"}
-          edit_btn.classList = ["edit-btn copy-btn"]
-          edit_btn.bind("click", lambda event,e=edit_btn , c=code_block: edit_in_browser(c,e))
-          code_block.parentNode.insertBefore(edit_btn, code_block.nextSibling)
+# Rest of the existing code...
 
-      def edit_in_browser(c,e):
-          e.disabled = True
-          org=c.innerHTML
-          sr=c.textContent
-          cee=html.CODE()
-          c.parentNode.insertBefore(cee,e.previousSibling)
-          c.style={"display": "none"}
-          cee.outerHTML="<code class='code-block hljs' contenteditable>"+str(sr)+"</code>"
-          dock=html.DIV()
-          dock.classList = ["dock"]
-          e.parentNode.insertBefore(dock, e.nextSibling.nextSibling.nextSibling)
-          def de(event,c):
-            #done.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.outerHTML="<code class='code-block language-python hljs hljs'>"+done.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.textContent+"</code>"
-              run_in_browser2(event, done.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.previousSibling)
-              done.parentNode.parentNode.removeChild(c.previousSibling)
-              c.style={"display": "block"}
-              done.parentNode.parentNode.removeChild(done.parentNode)
-              e.disabled = False
-          def ce(event):
-              done.parentNode.parentNode.removeChild(c.previousSibling)
-              c.style={"display": "block"}
-              done.parentNode.parentNode.removeChild(done.parentNode)
-              e.disabled = False
-          done=html.BUTTON("Run")
-          done.style = {"margin-left": "10px"}
-          done.classList = ["copy-btn"]
-          done.bind("click",lambda event, cde=c: de(event,cde))
-          dock.insertBefore(done,done.nextSibling)
-          cancel=html.BUTTON("Cancel")
-          cancel.style = {"margin-left": "10px"}
-          cancel.classList = ["copy-btn"]
-          cancel.bind("click", ce)
-          dock.insertBefore(cancel,done.nextSibling)
+def open_wrapper(file, mode='r', newline='\n', delimiter=','):
+    if mode == 'w':
+        if file.endswith('.csv'):
+            f = open(file, mode, newline=newline)
+            f.close()
+            return CSVWrapper(file, newline=newline, delimiter=delimiter)
+        else:
+            f = open(file, mode, newline=newline)
+            f.close()
+            return FileWrapper(file, newline=newline)
+    else:
+        return open(file, mode, newline=newline)
 
 
+def exec_with_captured_stdout(code):
+    modified_code = code.replace("open(", "open_wrapper(")
 
-      </script>
+    old_stdout = sys.stdout
+    sys.stdout = StringIO()
+    captured_output = ""
+
+    try:
+        exec(modified_code)
+    except Exception as e:
+        sys.stdout.write(traceback.format_exc())
+    captured_output += sys.stdout.getvalue()
+    sys.stdout.close()
+    sys.stdout = old_stdout
+
+    print("StdOut:", captured_output)
+
+    global outp
+    outp = html.CODE(captured_output)
+    outp.classList = ["code-block language-python hljs hljs runner"]
+
+
+def run_in_browser(event, code_block):
+    exec_with_captured_stdout(code_block.text)
+    print(code_block)
+    code_block.parentNode.insertBefore(outp, code_block.nextSibling.nextSibling.nextSibling.nextSibling)
+
+def run_in_browser2(event, code_block):
+    exec_with_captured_stdout(code_block.text)
+    print(code_block)
+    code_block.parentNode.insertBefore(outp, code_block.nextSibling.nextSibling.nextSibling.nextSibling.nextSibling)
+
+
+for code_block in document.querySelectorAll(".code-block"):
+    run_btn = html.BUTTON("Run")
+    run_btn.style = {"margin-left": "10px"}
+    run_btn.classList = ["run-btn copy-btn"]
+    run_btn.bind("click", lambda event, c=code_block: run_in_browser(event, c))
+    code_block.parentNode.insertBefore(run_btn, code_block.nextSibling)
+
+
+for code_block in document.querySelectorAll(".code-block"):
+    edit_btn = html.BUTTON("Edit")
+    edit_btn.style = {"margin-left": "10px"}
+    edit_btn.classList = ["edit-btn copy-btn"]
+    edit_btn.bind("click", lambda event, e=edit_btn, c=code_block: edit_in_browser(c, e))
+    code_block.parentNode.insertBefore(edit_btn, code_block.nextSibling)
+
+def edit_in_browser(c, e):
+    e.disabled = True
+    org = c.innerHTML
+    sr = c.textContent
+    cee = html.CODE()
+    c.parentNode.insertBefore(cee, e.previousSibling)
+    c.style = {"display": "none"}
+    cee.outerHTML = "<code class='code-block hljs' contenteditable>" + str(sr) + "</code>"
+    dock = html.DIV()
+    dock.classList = ["dock"]
+    e.parentNode.insertBefore(dock, e.nextSibling.nextSibling.nextSibling)
+    
+    def de(event, c):
+        run_in_browser2(event, done.parentNode.previousSibling.previousSibling.previousSibling.previousSibling.previousSibling)
+        done.parentNode.parentNode.removeChild(c.previousSibling)
+        c.style = {"display": "block"}
+        done.parentNode.parentNode.removeChild(done.parentNode)
+        e.disabled = False
+    
+    def ce(event):
+        done.parentNode.parentNode.removeChild(c.previousSibling)
+        c.style = {"display": "block"}
+        done.parentNode.parentNode.removeChild(done.parentNode)
+        e.disabled = False
+    
+    done = html.BUTTON("Run")
+    done.style = {"margin-left": "10px"}
+    done.classList = ["copy-btn"]
+    done.bind("click", lambda event, cde=c: de(event, cde))
+    dock.insertBefore(done, done.nextSibling)
+    
+    cancel = html.BUTTON("Cancel")
+    cancel.style = {"margin-left": "10px"}
+    cancel.classList = ["copy-btn"]
+    cancel.bind("click", ce)
+    dock.insertBefore(cancel, done.nextSibling)
+
+for e in document.querySelectorAll("code"):
+    if 'create-file' in e.classList:
+        data_file = e.getAttribute('data-file')
+        f=open(data_file,"w")
+        f.write(e.textContent)
+        f.close()
+
+          </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.2.0/highlight.min.js"></script>
     <div class="main-content">
         <div class="login_ui" data-netlify-identity-menu></div>
@@ -149,7 +244,6 @@
                 <h1>All Class<br>12 Programs.</h1>
                 <a class="exp" href="#code">Explore ></a>
             </div>
-            <spline-viewer loading-anim url="https://prod.spline.design/PacbbIBX7-tpxTSW/scene.splinecode" class="spline"></spline-viewer>
             <!---
             <div>
                 <img class="code" src="assets/code.png">
@@ -157,18 +251,485 @@
             </div>
             <p>All programs done in class 12.</p>
             --->
-            <h2>Press and drag to orbit.</h2>
         </main>
         <main id="code" class="">
 
             <h3 class="head">Code</h3>
-            <h4 class="date-data"><span class="date">28 April 2023</span> Functions // Day 7 - Global and Local scopes</h4>
+            <h4 class="date-data"><span class="date">24 July 2023</span> File Handling // Day 9 - CSV files.</h4>
+            <div class="codeh" data-code-id="42">
+                <h4>1. WAP to Create a csv file of student details.</h4>
+                <pre class="no-edit no-run"><code class="code-block language-plaintext hljs create-file" data-file="data.csv"></code></pre>
+                <pre><code class="code-block language-python hljs">import csv
+f = open("data.csv", "w",newline="")  # without the newline argument - it creates a new line when we enter a new record
+wr = csv.writer(f)
+n=int(input("Enter number of records you wish to add -> "))
+wr.writerow(["R. NO.", "NAME", "CLASS", "SECTION"])
+for i in range(n):
+    r=int(input("Enter roll number -> "))
+    n=input("Enter name -> ")
+    c=int(input("Enter class -> "))
+    s=input("Enter section -> ")
+    wr.writerow([r,n,c,s])
+f.close()
+</code></pre>
+            </div>
+            <div class="codeh" data-code-id="41">
+                <h4>2. WAP to add a record in a csv file of student details.</h4>
+                <pre class="no-edit no-run"><code class="code-block language-plaintext hljs create-file" data-file="data.csv"></code></pre>
+                <pre><code class="code-block language-python hljs">import csv
+f = open("data.csv", "r")  # without the newline argument - it creates a new line when we enter a new record
+c = csv.reader(f)
+l=[]
+for i in c:
+    l.append(i)
+f.close()
+n=int(input("Enter number of records you wish to add -> "))
+f = open("data.csv", "w",newline="")
+wr = csv.writer(f)
+for i in range(n):
+    r=int(input("Enter roll number -> "))
+    n=input("Enter name -> ")
+    c=int(input("Enter class -> "))
+    s=input("Enter section -> ")
+    l.append([r,n,c,s])
+for i in l:
+    wr.writerow(i)
+f.close()
+</code></pre>
+            </div>
+            <div class="codeh" data-code-id="40">
+                <h4>3. WAP to remove a record in a csv file of student details.</h4>
+                <pre class="no-edit no-run"><code class="code-block language-plaintext hljs create-file" data-file="data.csv"></code></pre>
+                <pre><code class="code-block language-python hljs">import csv
+f = open("data.csv", "r")  # without the newline argument - it creates a new line when we enter a new record
+c = csv.reader(f)
+l=[]
+for i in c:
+    l.append(i)
+for i in l:
+    for j in i:
+        print(j,end="\t")
+    print()
+f.close()
+n=input("Enter roll number of the student who's record you wish to remove -> ")
+f = open("data.csv", "w",newline="")
+wr = csv.writer(f)
+for i in l:
+    if i[0]!=n:
+        wr.writerow(i)
+f.close()
+</code></pre>
+            </div>
+            <div class="codeh" data-code-id="39">
+                <h4>4. WAP to edit a record in a csv file of student details.</h4>
+                <pre class="no-edit no-run"><code class="code-block language-plaintext hljs create-file" data-file="data.csv"></code></pre>
+                <pre><code class="code-block language-python hljs">import csv
+f = open("data.csv", "r")  # without the newline argument - it creates a new line when we enter a new record
+c = csv.reader(f)
+l=[]
+for i in c:
+    l.append(i)
+for i in l:
+    for j in i:
+        print(j,end="\t")
+    print()
+f.close()
+n=input("Enter roll number of the student who's record you wish to edit -> ")
+s=0
+for i in l:
+    if i[0]==n:
+        s=1
+        print("   Enter field to modify\n   1 - Name\n   2 - Class\n   3 - Section")
+        mode=int(input("    -> "))
+        if mode==1:
+            h=input("   Enter new name ->")
+            i[1]=h
+        elif mode==2:
+            h=int(input("   Enter new class ->"))
+            i[2]=h
+        elif mode==3:
+            h=input("   Enter new section ->")
+            i[3]=h
+        else:
+            print("   invalid input!")
+        break
+    else:
+        s=0
+if s==1:
+    f = open("data.csv", "w",newline="")
+    wr = csv.writer(f)
+    for i in l:
+        wr.writerow(i)
+    f.close()</code></pre>
+            </div>
+            <div class="codeh" data-code-id="38">
+                <h4>5. WAP to search a record in a csv file of student details.</h4>
+                <pre class="no-edit no-run"><code class="code-block language-plaintext hljs create-file" data-file="data.csv"></code></pre>
+                <pre><code class="code-block language-python hljs">import csv
+f = open("data.csv", "r")
+c = csv.reader(f)
+l=[]
+for i in c:
+    l.append(i)
+f.close()
+n=input("Enter the roll number of student who's record you wish to search -> ")
+x=0
+for i in l:
+    if i[0]==n:
+        x=1
+        for j in i:
+            print(j,end="\t")
+        print()
+    else:
+        x=0
+if x==0:
+    print("Record not found!")</code></pre>
+            </div>
+            <div class="codeh" data-code-id="37">
+                <h4>6. WAP to list all records in a csv file of student details.</h4>
+                <pre class="no-edit no-run"><code class="code-block language-plaintext hljs create-file" data-file="data.csv"></code></pre>
+                <pre><code class="code-block language-python hljs">import csv
+f = open("data.csv", "r")  # without the newline argument - it creates a new line when we enter a new record
+c = csv.reader(f)
+for i in c:
+    for j in i:
+        print(j,end="\t")
+    print()
+f.close()</code></pre>
+            </div>
+            <h4 class="date-data"><span class="date">21 July 2023</span> File Handling // Day 8 - Practice Questions.</h4>
+            <div class="codeh" data-code-id="36">
+                <h4>1. WAP to count the number of Uppercase letters in a text file.</h4>
+                <pre class="no-edit no-run"><code class="code-block language-plaintext hljs create-file" data-file="text2.txt">Lorem ipsum dolor sit amet, Consectetur adipiscing elit.
+Nam tempus, arcu in dapibus Iaculis, felis sapien congue Felis, et pretium lectus. </code></pre>
+                <pre><code class="code-block language-python hljs">f=open("text2.txt","r")
+s=f.read()
+c=0
+for i in s:
+    if i.isupper():
+        c+=1
+print("Number of Uppercase letters ->",c)
+f.close()</code></pre>
+            </div>
+            <div class="codeh" data-code-id="35">
+                <h4>2. WAP to count the number of Uppercase letters in a text file per line.</h4>
+                <pre class="no-edit no-run"><code class="code-block language-plaintext hljs create-file" data-file="text2.txt">Lorem ipsum dolor sit amet, Consectetur adipiscing elit.
+Nam tempus, arcu in dapibus Iaculis, felis sapien congue Felis, et pretium lectus. </code></pre>
+                <pre><code class="code-block language-python hljs">f=open("text2.txt","r")
+l=f.readlines()
+for i in range(len(l)):
+    c=0
+    for j in l[i]:
+        if j.isupper():
+            c+=1
+    print("Number of Uppercase letters in line", i+1, "->",c)
+f.close()</code></pre>
+            </div>
+            <h4 class="date-data"><span class="date">19 July 2023</span> File Handling // Day 7 - Binary files.</h4>
+            <div class="codeh" data-code-id="34">
+                <h4>1. WAP to insert a record into a binary file. (Without deleting the old data, no you can't use append - it won't work.)</h4>
+                <pre class="no-edit no-run">No file preview available.</pre>
+                <pre><code class="code-block language-python hljs">import pickle as p
+f=open("shinto.dat","rb")
+l=[]
+while True:
+    try:
+        h=p.load(f)
+        l.append(h)
+    except EOFError:
+        f.close()
+        break
+n=input("Enter name ->")
+c=int(input("Enter class ->"))
+r=int(input("Enter roll no ->"))
+s=input("Enter stream ->")
+l.append([r,n,c,s])
+f=open("shinto.dat","wb")
+for j in l:
+    p.dump(j,f)
+f.close()</code></pre>
+            </div>
+            <h4 class="date-data"><span class="date">18 July 2023</span> File Handling // Day 6 - Binary files.</h4>
+            <div class="codeh" data-code-id="33">
+                <h4>1. A file result.dat has names with their marks in english, maths and CS. Write a function called display() to display all students who scored 90+ in all 3 subjects.</h4>
+                <pre class="no-edit no-run"><p class="filename">result.dat [processed]</p><code class="code-block language-plaintext hljs no-mr">[['Anmol',93,94,95],['Raghav',95,96,97],['Daksh',87,83,92]]</code></pre>
+                <script type="text/python">
+import pickle as p
+f=open("result.dat","wb")
+l=[['Anmol',93,94,95],['Raghav',95,96,97],['Daksh',87,83,92]]
+for i in l:
+    p.dump(i,f)
+f.close()
+                </script>
+                <pre><code class="code-block language-python hljs">import pickle as p
+def result():
+    f=open("result.dat","rb")
+    l=[]
+    while True:
+        try:
+            rec=p.load(f)
+            l.append(rec)
+        except:
+            f.close()
+            break
+    for i in l:
+        if i[1]>=90 and i[2]>=90 and i[3]>=90:
+            for j in i:
+                print(j,end="\t")
+            print()
+result()</code></pre>
+            </div>
+            <h4 class="date-data"><span class="date">14 July 2023</span> File Handling // Day 5 - Binary files.</h4>
+            <div class="codeh" data-code-id="32">
+                <h4>1. WAP to delete the records of the binary file created the previous day.</h4>
+                <pre class="no-edit no-run">No file preview available.</pre>
+                <pre><code class="code-block language-python hljs">import pickle as p
+f=open("shinto.dat","rb")
+l=[]
+print("R. NO.\tNAME\tCLASS\tSTREAM")
+while True:
+    try:
+        rec=p.load(f)
+        l.append(rec)
+        r,n,c,s=rec
+        print(r,n,c,s,sep="\t")
+    except:
+        f.close()
+        break
+f=open("shinto.dat","wb")
+rno=int(input("Enter roll number of student to be removed -> "))
+for j in l:
+    if j[0]==rno:
+        pass
+    else:
+        p.dump(j,f)
+f.close()</code></pre>
+            </div>
+            <h4 class="date-data"><span class="date">13 July 2023</span> File Handling // Day 4 - Binary files.</h4>
+            <div class="codeh" data-code-id="31">
+                <h4>1. WAP to search the records of the binary file created the previous day.</h4>
+                <pre class="no-edit no-run">No file preview available.</pre>
+                <pre><code class="code-block language-python hljs">import pickle as p
+
+f = open("shinto.dat", "rb")
+l = []
+n = int(input("Enter roll number -> "))
+# implement searching based on other factors
+while True:
+    try:
+        rec = p.load(f)
+        l.append(rec)
+    except:
+        f.close()
+        break
+print("R. NO.\tNAME\tCLASS\tSTREAM")
+for i in l:
+    if i[0] == n:
+        r, n, c, s = i
+        print(r, n, c, s, sep="\t")
+</code></pre>
+            </div>
+            <div class="codeh" data-code-id="30">
+                <h4>2. WAP to modify the records of the binary file created the previous day.</h4>
+                <pre class="no-edit no-run">No file preview available.</pre>
+                <pre><code class="code-block language-python hljs"># the one im showing here is quite a complicated version, you can go for something simple
+import pickle as p
+f=open("shinto.dat","rb")
+l=[]
+while True:
+    try:
+        rec=p.load(f)
+        l.append(rec)
+        r,n,c,s=rec
+        print(r,n,c,s,sep="\t")
+    except:
+        f.close()
+        break
+
+n=int(input("Enter Roll number of student whos data is to be modified -> "))
+s=0
+for i in l:
+    if i[0]==n:
+        s=1
+        print("   Enter field to modify\n   1 - Name\n   2 - Class\n   3 - Stream")
+        mode=int(input("    -> "))
+        if mode==1:
+            h=input("   Enter new name ->")
+            i[1]=h
+        elif mode==2:
+            h=int(input("   Enter new class ->"))
+            i[2]=h
+        elif mode==3:
+            h=input("   Enter new stream ->")
+            i[3]=h
+        else:
+            print("   invalid input!")
+        break
+    else:
+        s=0
+if s==1:
+    f=open("shinto.dat","wb")
+    for i in l:
+        p.dump(i,f)
+    f.close()
+else:
+    print("Record not found!")</code></pre>
+            </div>
+            <h4 class="date-data"><span class="date">12 July 2023</span> File Handling // Day 3 - Binary files.</h4>
+            <div class="codeh" data-code-id="29">
+                <h4>1. WAP to take lists of data and add them to a binary file <br><br><span class="tag">by Aryaman Sharma</span></h4>
+                <pre class="no-edit no-run">No file preview available.</pre>
+                <pre><code class="code-block language-python hljs">import pickle
+f=open("shinto.dat","wb")
+l=[]
+while True:
+    n=input("Enter name ->")
+    if n.lower()=="end":
+        break
+    c=int(input("Enter class ->"))
+    r=int(input("Enter roll no ->"))
+    s=input("Enter stream ->")
+    l=[r,n,c,s]
+    pickle.dump(l,f)
+f.close()</code></pre>
+            </div>
+            <div class="codeh" data-code-id="28">
+                <h4>2. WAP to read the binary file just created.</h4>
+                <pre class="no-edit no-run">No file preview available.</pre>
+                <pre><code class="code-block language-python hljs">import pickle as p
+f=open("shinto.dat","rb")
+print("R. NO.\tNAME\tCLASS\tSTREAM")
+while True:
+    try:
+        r,n,c,s=p.load(f)
+        print(r,n,c,s,sep="\t")
+    except:
+        f.close()
+        break</code></pre>
+            </div>
+            <h4 class="date-data"><span class="date">4 July 2023</span> Revision // Practice Questions.</h4>
+            <div class="codeh" data-code-id="27">
+                <h4>1. WAP to take a string from the user till the user enters 'END'. Save the data to a file "myfile.txt" and display only sentences starting with Uppercase alphabets.<br><br><span class="tag">question by Aryaman Sharma</span></h4>
+                <pre class="no-edit no-run"><code class="code-block language-plaintext hljs" data-file="myfile.txt"></code></pre>
+                <pre><code class="code-block language-python hljs">f=open("myfile.txt","w")
+l=""
+while True:
+    inp=input("-> ")
+    if inp!="END":
+        l=l+inp+"\n" #we use `\n` to create a new line
+    else:
+        f.write(l)
+        f.close()
+        break
+g=open("myfile.txt","r")
+s=g.readlines()
+for i in s:
+    if i[0].isupper():
+        print(i,end="")
+g.close()</code></pre>
+            </div>
+            <div class="codeh" data-code-id="26">
+                <h4>2. Write a function to take a string as a parameter and return the number of vowels as a dictionary.<br><br><span class="tag">question by Aryaman Sharma</span></h4>
+                <pre><code class="code-block language-python hljs">def count(a):
+    d={"a":0,"e":0,"i":0,"o":0,"u":0}
+    for i in a:
+        if i in "aeiouAEIOU":
+            c=d.get(i)
+            d.update({i.lower():c+1})
+    return d
+print(count("random string"))</code></pre>
+            </div>
+            <h4 class="date-data"><span class="date">3 July 2023</span> File Handling // Day 2 - Practice Questions.</h4>
+            <div class="codeh" data-code-id="25">
+                <h4>1. WAP to count the number of words in a text file.</h4>
+                <pre class="no-edit no-run"><code class="code-block language-plaintext hljs create-file" data-file="textfile.txt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tempus, arcu in dapibus iaculis, felis sapien congue felis, et pretium lectus. </code></pre>
+                <pre><code class="code-block language-python hljs">f=open("textfile.txt","r")
+s=f.read()
+l=s.split()
+print("Number of words ->",len(l))
+f.close()</code></pre>
+            </div>
+            <div class="codeh" data-code-id="24">
+                <h4>2. WAP to count the number of words starting with a particular ("a" for this example) letter in a text file. </h4>
+                <pre class="no-edit no-run"><code class="code-block language-plaintext hljs create-file" data-file="textfile.txt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tempus, arcu in dapibus iaculis, felis sapien congue felis, et pretium lectus. </code></pre>
+                <pre><code class="code-block language-python hljs">f=open("textfile.txt","r")
+s=f.read()
+l=s.split()
+c=0
+for i in l:
+    if i[0]=="a":
+        c+=1
+print("Number of words starting with 'a' ->",c)
+f.close()</code></pre>
+            </div>
+            <div class="codeh" data-code-id="23">
+                <h4>3. WAP to create a copy of a text file.</h4>
+                <pre class="no-edit no-run"><p class="filename">original.txt</p><code class="code-block language-plaintext hljs create-file no-mr" data-file="original.txt">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tempus, arcu in dapibus iaculis, felis sapien congue felis, et pretium lectus.</code></pre>
+                <pre class="no-edit no-run"><p class="filename">copy.txt</p><code class="code-block language-plaintext hljs no-mr" data-file="copy.txt"></code></pre>
+                <pre><code class="code-block language-python hljs">f=open("original.txt","r")
+s=f.read()
+g=open("copy.txt","w")
+g.write(s)
+g.close()
+f.close()</code></pre>
+            </div>
+            <h4 class="date-data"><span class="date">10 May 2023</span> File Handling // Day 1 - The basics.</h4>
+            <div class="codeh" data-code-id="22">
+                <h4>1. WAP to create a text file.</h4>
+                <pre class="no-edit no-run"><code class="code-block language-plaintext hljs" data-file="file.txt"></code></pre>
+                <pre><code class="code-block language-python hljs">f=open("file.txt","w")
+f.write("abc")
+f.close()</code></pre>
+            </div>
+            <div class="codeh" data-code-id="21">
+                <h4>2. WAP to change all characters of a file to UPPERCASE.</h4>
+                <pre class="no-edit no-run"><code class="code-block language-plaintext hljs create-file" data-file="abc.txt">Just a test file
+y'know</code></pre>
+                <pre><code class="code-block language-python hljs">f=open("abc.txt","r")
+s=f.read()
+u=s.upper()
+print(u)</code></pre>
+            </div>
+            <div class="codeh" data-code-id="20">
+                <h4>2. WAP to change the first letter of all words of a file to UPPERCASE.</h4>
+                <pre class="no-edit no-run"><code class="code-block language-plaintext hljs create-file" data-file="abc.txt">Just a test file
+y'know</code></pre>
+                <pre><code class="code-block language-python hljs">f=open("abc.txt","r")
+s=f.readlines()
+for i in s:
+    for j in i.split():
+        print(j.capitalize(),end=" ")
+    print()</code></pre>
+            </div>
+            <h4 class="date-data"><span class="date">8 May 2023</span> Functions // Day 7 - Question on math module.</h4>
+            <div class="codeh" data-code-id="19">
+                <h4>1. WAP to find area of a regular polygon.</h4>
+                <pre><code class="code-block language-python hljs">from math import tan,pi
+s=int(input("Enter number of sides -> "))
+l=int(input("Enter length of a side -> "))
+ar=(s*l**2)/(4*tan(pi/s))
+print(ar)</code></pre>
+            </div>
+            <h4 class="date-data"><span class="date">2 May 2023</span> Functions // Day 6 - Functions + Dictionaries</h4>
+            <div class="codeh" data-code-id="18">
+                <h4>1. WAP to create a dictionary.</h4>
+                <pre><code class="code-block language-python hljs">def makedic(n):
+    l={}
+    for i in range(n):
+        h=eval(input("Enter key -> "))
+        k=eval(input("Enter value -> "))
+        l.update({h:k})
+    return l
+print(makedic(2))</code></pre>
+            </div>
+            <h4 class="date-data"><span class="date">28 April 2023</span> Functions // Day 5 - Global and Local scopes</h4>
             <div class="codeh" data-code-id="17">
-                <h4>2. Write a program to demonstrate local and global scopes. <br><br><span class="tag">by Aryaman Sharma</span></h4>
+                <h4>1. Write a program to demonstrate local and global scopes. <br><br><span class="tag">by Aryaman Sharma</span></h4>
                 <pre><code class="code-block language-python hljs">G=10 #glboal variable intially taken
 
 def localvariable():
     G=15 #this value is local therefore only in this function will the value of G be 15
+    return G
 def joseph():
     global G #global functions makes it so that G=20 is the new official value of G all over the code, calling is essential however
     G=20
@@ -189,7 +750,7 @@ print(G) #yield should be 40
 #although value of G is sustained for local for e.g.
 print(localvariable())</code></pre>
             </div>
-            <h4 class="date-data"><span class="date">26 April 2023</span> Functions // Day 6 - Returning multiple values from a function</h4>
+            <h4 class="date-data"><span class="date">26 April 2023</span> Functions // Day 4 - Returning multiple values from a function</h4>
             <div class="codeh" data-code-id="16">
                 <h4>1. Create a function to add and subtract values and return the both of these values.</h4>
                 <pre><code class="code-block language-python hljs">def func(a,b):
@@ -199,7 +760,7 @@ print(localvariable())</code></pre>
 a,b=func(420,69)
 print(a,b,sep="\n")</code></pre>
             </div>
-            <h4 class="date-data"><span class="date">24 April 2023</span> Functions // Day 5 - Importing Functions</h4>
+            <h4 class="date-data"><span class="date">24 April 2023</span> Functions // Day 3 - Importing Functions</h4>
             <div class="codeh" data-code-id="15">
                 <h4>1. Import a function from a file.</h4>
                 <pre class="no-run no-edit no-com"><code class="code-block language-python hljs module" data-module-name="modl">def func(a,b):
@@ -208,7 +769,7 @@ print(a,b,sep="\n")</code></pre>
                 <pre><code class="code-block language-python hljs">from modl import func
 print(func(10,20))</code></pre>
             </div>
-            <h4 class="date-data"><span class="date">17 April 2023</span> Functions // Day 4 - User Defined Functions - Passing Args + Default arguments</h4>
+            <h4 class="date-data"><span class="date">17 April 2023</span> Functions // Day 2 - User Defined Functions - Passing Args + Default arguments</h4>
             <div class="codeh" data-code-id="14">
                 <h4>1. Make some functions using args.</h4>
                 <pre><code class="code-block language-python hljs"># function defs ->
@@ -242,7 +803,7 @@ print("Add num:",addnum(7,2))
 print("Exponent:",expo(3))
 print("Exponent with second arg:",expo(3,5))</code></pre>
             </div>
-            <h4 class="date-data"><span class="date">13 April 2023</span> Functions // Day 3 - User Defined Functions</h4>
+            <h4 class="date-data"><span class="date">13 April 2023</span> Functions // Day 1 - User Defined Functions</h4>
             <div class="codeh" data-code-id="13">
                 <h4>1. Make 3 functions: area of square, area of rectangle and sum of 2 numbers</h4>
                 <pre><code class="code-block language-python hljs">def area_sqr():
@@ -332,7 +893,7 @@ print("abc".isalpha())
 print("abc ".isalpha())
 print("abc21".isalpha())
 
-# .isdigit(): True if string has only digits 
+# .isdigit(): True if string has only digits
 print("123".isdigit())
 
 # len(): length of string (spaces are also counted)
@@ -524,13 +1085,16 @@ print(a,"^",b,"=",ans)</code></pre>
                         This website is open source (like 99% of my code) so people can insult me about shitty code. Here's the repo if you want: <a href="https://github.com/AnmolPlayzz/AC12P" target="_blank">https://github.com/AnmolPlayzz/AC12P</a>
                         <br>
                         <br>
+                        Comment guidelines: <a href="https://github.com/AnmolPlayzz/AC12P/blob/main/COMMENT_GUIDELINES.md" target="_blank">https://github.com/AnmolPlayzz/AC12P/blob/main/COMMENT_GUIDELINES.md</a>
+                        <br>
+                        <br>
                         Found a bug? <a href="https://github.com/AnmolPlayzz/AC12P#found-a-bug" target="_blank">Read this.</a>
                         <br>
                         <br>
                         Have a suggestion? You can tell me on whatever the fuck app you want to use, but I'm probably too lazy to implement it. So yeah, feel free to waste your energy!
                         <br>
                         <br>
-                        What did I use to make this website? As usual HTML (Hyper Text Markup Language), CSS (Cascading Style Sheets) and Javascript. Now, I've had to use eleventy (11ty) as my framework cuz well comment feature. I wanted an easy way to connect with mongodb and so here we are. btw SQL sucks I'm never gonna use it.
+                        What did I use to make this website? As usual HTML (Hyper Text Markup Language), CSS (Cascading Style Sheets) and Javascript. Also mongodb to store the comments. btw SQL sucks I'm never gonna use it.
                         <br>
                         <br>
                         More often or not, people ask me why did I make this? Or rather some mfs say i made it for my "someone specil" even tho idk who tf this someone is, I just made it to store code for myself and to share it with the boiz. (Mr. Sharma and Mr. Arora, fuck off for this joke.)
@@ -558,11 +1122,40 @@ print(a,"^",b,"=",ans)</code></pre>
                     </p>
                     <hr>
                     <p style="font-size: 15px; padding-top: 30px;">
-                        Made with HTML, CSS, JavaScript, Python, Brython and ❤ by <a href="https://github.com/AnmolPlayzz" target="_blank">@AnmolPlayzz (GitHub)</a>
+                        Made with HTML, CSS, JavaScript, Python, Brython and 🥰 + 🎶 by <a href="https://github.com/AnmolPlayzz" target="_blank">@AnmolPlayzz (GitHub)</a> // <a href="https://www.instagram.com/anmolsharma_16/" target="_blank">@anmolsharma_16 (Insta)</a>
                     </p>
                 </div>
                 <div class="ver">
                     <h5>Version Info</h5>
+                    <p style="font-size: 18px; padding-top: 10px;">
+                        <span class="latest">LATEST</span>
+                        [05 August 2023] Version 4.9<br>
+                        <br>
+                        <span style="font-size: 17px; font-weight: bolder;">What's new?<br></span>
+                        <span style="font-size: 15px">
+- An emulator for CSV files</span>
+                    <p style="font-size: 18px; padding-top: 10px;">
+                        [16 July 2023] Version 4.8<br>
+                        <br>
+                        <span style="font-size: 17px; font-weight: bolder;">What's new?<br></span>
+                        <span style="font-size: 15px">
+- New home page (removed the 3D model bcz it was lagging the website on many devices)<br>
+- Raise the character limit for comments to precisely 969 characters (nice.)</span>
+                    <p style="font-size: 18px; padding-top: 10px;">
+                        [19 May 2023] Version 4.7<br>
+                        <br>
+                        <span style="font-size: 17px; font-weight: bolder;">What's new?<br></span>
+                        <span style="font-size: 15px">
+- A file system emulator (i had to fucking make this thing and im so pissed rn, it just works for the file functions in python).<br>
+- Real time syncing for comments because ooo fancy tech.<br>
+- Fixed an indentation issue relating to brython (you should not give a fuck).</span>
+                    <p style="font-size: 18px; padding-top: 10px;">
+                        [9 May 2023] Version 4.6<br>
+                        <br>
+                        <span style="font-size: 17px; font-weight: bolder;">What's new?<br></span>
+                        <span style="font-size: 15px">
+Comment guidelines (you must follow).
+</span>
                     <p style="font-size: 18px; padding-top: 10px;">
                         [1 May 2023] Version 4.5<br>
                         <br>
@@ -571,7 +1164,6 @@ print(a,"^",b,"=",ans)</code></pre>
 Comment feature (I want to explode)
 </span>
                     <p style="font-size: 18px; padding-top: 10px;">
-                        <span class="latest">LATEST</span>
                         [29 April 2023] Version 4.4<br>
                         <br>
                         <span style="font-size: 17px; font-weight: bolder;">What's new?<br></span>

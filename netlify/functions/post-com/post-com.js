@@ -2,9 +2,12 @@
 const { ServerApiVersion } = require('mongodb');
 const MongoClient = require('mongodb').MongoClient;
 const WebSocket = require('ws');
+const Ably = require("ably/callbacks");
 
 exports.handler = async (event, context) => {
   const uri = process.env.MONGO_URI;
+  var ably = new Ably.Realtime(process.env.ABLY_API_KEY);
+  var channel = ably.channels.get('com');
   const client = new MongoClient(uri, {
     serverApi: {
       version: ServerApiVersion.v1,
@@ -29,7 +32,7 @@ exports.handler = async (event, context) => {
       },
     });
     console.log(`Comment ${result.insertedId} added to database`);
-    // push new comment over WebSocket connection
+    channel.publish('comment','added');
 
     return {
       statusCode: 200,
