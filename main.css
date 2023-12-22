@@ -1055,6 +1055,9 @@ code {
     vertical-align: center;
 }
 @media screen and (max-width: 745px) {
+    .pws > p {
+        width: 75% !important;
+    }
     .login_ui {
         z-index: 500;
         margin-top: 10px;
@@ -1280,10 +1283,72 @@ code {
     }
 }
 
+@media screen and (max-width: 410px) {
+    .code-tabs div {
+        margin: 0 9px !important;
+        padding: 5px 9px !important;
+    }
+}
+
 .no-run .run-btn {
     display: none;
 }
 
 .no-edit .edit-btn {
     display: none;
+}
+
+/*tabs*/
+.code-cur {
+    display: flex !important;
+}
+
+.pws {
+    opacity: 0;
+    width: fit-content;
+    align-items: center;
+    flex-direction: column;
+    z-index: 2000;
+    display: none;
+}
+
+.code-tabs {
+    opacity: 0;
+    margin-bottom: 40px;
+    padding: 20px 0;
+    display: flex;
+    animation: codeload 0.5s ease 2s forwards;
+}
+
+.code-tabs div {
+    margin: 0 15px;
+    padding: 10px 15px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all ease 0.2s;
+}
+
+.code-tabs div:hover {
+    background: #adadad;
+    border-radius: 10px;
+    color: black;
+}
+
+.cur-tab {
+    background: white;
+    color: black;
+    border-radius: 10px;
+    box-shadow: white 0px 0px 10px;
+}
+.pws > h1 {
+    font-size: 26px;
+    color: white;
+    font-weight: bolder;
+}
+.pws > p {
+    width: 60%;
+    font-weight: normal;
+    font-size: 20px;
+    color: white;
+    margin-bottom: 20px;
 }

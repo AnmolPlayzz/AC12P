@@ -1,4 +1,4 @@
-
+document.querySelector(".python-pms").style.opacity="1"
 
 hljs.initHighlightingOnLoad();
 const anchorTags = document.querySelectorAll('.navbar__desktop a');
@@ -505,4 +505,83 @@ channel.subscribe('comment', async (message) => {
             });
         })();
     }
+});
+codeTabs = document.querySelectorAll(".code-tabs div")
+codeTabs.forEach(tab => {
+    tab.addEventListener('click', function(event) {
+
+        // Remove active class from all anchor tags
+        codeTabs.forEach(tag => tag.classList.remove('cur-tab'));
+
+        // Add active class to clicked anchor tag
+        this.classList.add('cur-tab');
+
+    });
+});
+
+const sqlth = document.querySelector('.cd-sql');
+sqlth.addEventListener("click", () => {
+    let main = document.querySelector(".code-cur");
+    main.style.opacity="0";
+    main.style.transition="0.5s all ease";
+    new Promise((resolve) => {
+        setTimeout(() => {
+            main.classList.remove("code-cur");
+            resolve();
+        }, 500); // set the time for the transition to complete
+    }).then(() => {
+        new Promise((resolve) => {
+            document.querySelector(".sql-pms").classList.add("code-cur")
+            resolve();
+        }).then(() => {
+            setTimeout(() => {
+                document.querySelector(".sql-pms").style.opacity="1"
+                document.querySelector(".sql-pms").style.transition="0.5s all ease";
+            }, 500);
+        });
+    });
+});
+const pyth = document.querySelector('.cd-py');
+pyth.addEventListener("click", () => {
+    let main = document.querySelector(".code-cur");
+    main.style.opacity="0";
+    main.style.transition="0.5s all ease";
+    new Promise((resolve) => {
+        setTimeout(() => {
+            main.classList.remove("code-cur");
+            resolve();
+        }, 500); // set the time for the transition to complete
+    }).then(() => {
+        new Promise((resolve) => {
+            document.querySelector(".python-pms").classList.add("code-cur")
+            resolve();
+        }).then(() => {
+            setTimeout(() => {
+                document.querySelector(".python-pms").style.opacity="1"
+                document.querySelector(".python-pms").style.transition="0.5s all ease";
+            }, 500);
+        });
+    });
+});
+const sqpyth = document.querySelector('.cd-py-sql');
+sqpyth.addEventListener("click", () => {
+    let main = document.querySelector(".code-cur");
+    main.style.opacity="0";
+    main.style.transition="0.5s all ease";
+    new Promise((resolve) => {
+        setTimeout(() => {
+            main.classList.remove("code-cur");
+            resolve();
+        }, 500); // set the time for the transition to complete
+    }).then(() => {
+        new Promise((resolve) => {
+            document.querySelector(".py-sql-pms").classList.add("code-cur")
+            resolve();
+        }).then(() => {
+            setTimeout(() => {
+                document.querySelector(".py-sql-pms").style.opacity="1"
+                document.querySelector(".py-sql-pms").style.transition="0.5s all ease";
+            }, 500);
+        });
+    });
 });
