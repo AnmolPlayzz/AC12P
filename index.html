@@ -1126,12 +1126,128 @@ print(a,"^",b,"=",ans)</code></pre>
             <div class="pws sql-pms">
                 <h1>Before you proceed...</h1>
                 <p>As insane as this might sound, we haven't really done anything for SQL or SQL connectivity in the class. We did do the theory part but that's as far as it goes, so I'm posting a few SQL programs from my side similar to the ones we discussed in class.<br><br>If you're wondering why you can't run the code in browser for this tab, I haven't worked on that feature, and I have no plans to, and you shouldn't expect me to.</p>
-                <h1>Nothing here yet.</h1>
+                <h1>How the content on this page works</h1>
+                <p>Here's what I'm doing: I'll be creating the database you see below and then use it to perform some queries. I assume you have just launched MySQL and haven't loaded into any databases.<br><br>I also expect you to know about the different MySQL commands.</p>
+                <pre class="no-copy no-edit no-run"><code class="code-block language-plaintext hljs">+---------+--------------+-------+---------+-------+
+| roll_no | name         | class | section | marks |
++---------+--------------+-------+---------+-------+
+|     101 | John Doe     |    10 | A       |    85 |
+|     102 | Jane Smith   |    11 | B       |    92 |
+|     103 | Mike Johnson |     9 | C       |    78 |
+|     104 | Sarah Brown  |    12 | A       |    95 |
+|     105 | Alex Davis   |    10 | B       |    89 |
+|     106 | Emily White  |    11 | C       |    88 |
+|     107 | David Lee    |    10 | A       |    91 |
+|     108 | Jessica Chen |     9 | B       |    76 |
++---------+--------------+-------+---------+-------+</code></pre>
+                <p style="text-align: center">(Dummy data provided by ChatGPT)</p>
+                <div class="codeh no-run no-edit" data-code-id="44">
+                    <h4>1. Creating and using a database</h4>
+                    <h5>01 >> Creating a database</h5>
+                    <pre><code class="code-block language-sql hljs">create database studentdb;</code></pre>
+                    <h5>02 >> Using the database just created</h5>
+                    <pre><code class="code-block language-sql hljs">use studentdb;</code></pre>
+                </div>
+                <div class="codeh no-run no-edit" data-code-id="45">
+                    <h4>2. Creating a table with a primary key.</h4>
+                    <pre><code class="code-block language-sql hljs">create table student(
+    roll_no int not null primary key,
+    name varchar(30) not null,
+    class int,
+    section varchar(10),
+    marks int
+);</code></pre>
+                    <h5>You can view the structure of the table by running</h5>
+                    <pre><code class="code-block language-sql hljs">DESCRIBE student;</code></pre>
+                </div>
+                <div class="codeh no-run no-edit" data-code-id="46">
+                    <h4>3. Inserting data into a database</h4>
+                    <h5>01 >> Method 1 - Without changing positions</h5>
+                    <pre><code class="code-block language-sql hljs">INSERT INTO student VALUES (101, 'John Doe', 10, 'A', 85);</code></pre>
+                    <h5>02 >> Method 2 - By changing positions</h5>
+                    <pre><code class="code-block language-sql hljs">INSERT INTO student (roll_no, name, marks, class, section) VALUES (102, 'Jane Smith', 92, 11, 'B');</code></pre>
+                    <h5>03 >> Inserting multiple records</h5>
+                    <pre><code class="code-block language-sql hljs">INSERT INTO student VALUES
+(103, 'Mike Johnson', 9, 'C', 78),
+(104, 'Sarah Brown', 12, 'A', 95),
+(105, 'Alex Davis', 10, 'B', 89),
+(106, 'Emily White', 11, 'C', 88),
+(107, 'David Lee', 10, 'A', 91),
+(108, 'Jessica Chen', 9, 'B', 76);</code></pre>
+                </div>
+                <div class="codeh no-run no-edit" data-code-id="47">
+                    <h4>4. Viewing all records</h4>
+                    <pre><code class="code-block language-sql hljs">SELECT * FROM STUDENT;</code></pre>
+                </div>
+                <p style="text-align: center">Now that the table is created, we'll perform some queries on it.</p>
+                <div class="codeh no-run no-edit" data-code-id="48">
+                    <h4>5. View only the Roll number and name columns</h4>
+                    <pre><code class="code-block language-sql hljs">SELECT ROLL_NO, NAME FROM STUDENT;</code></pre>
+                </div>
+                <div class="codeh no-run no-edit" data-code-id="48">
+                    <h4>6. Filtering records using specific conditions and where clauses</h4>
+                    <h5>01 >> Select all columns for records having marks less than 90</h5>
+                    <pre><code class="code-block language-sql hljs">SELECT * FROM STUDENT WHERE MARKS<90;</code></pre>
+                    <h5>02 >> Select all columns for records having roll numbers 103 to 107</h5>
+                    <pre><code class="code-block language-sql hljs">SELECT * FROM STUDENT WHERE ROLL_NO BETWEEN 103 AND 107;</code></pre>
+                    <h5>03 >> Select all columns for records having names starting with J</h5>
+                    <pre><code class="code-block language-sql hljs">SELECT * FROM STUDENT WHERE NAME LIKE "J%";</code></pre>
+                    <h5>04 >> Select all columns for records having names starting with J and having 7 characters precisely</h5>
+                    <pre><code class="code-block language-sql hljs">SELECT * FROM STUDENT WHERE NAME LIKE "J______";</code></pre>
+                    <h5>05 >> Select Marks for all students and subtract 10 from it</h5>
+                    <pre><code class="code-block language-sql hljs">SELECT NAME, MARKS - 10 FROM STUDENT;</code></pre>
+                </div>
+                <div class="codeh no-run no-edit" data-code-id="49">
+                    <h4>7. Order By</h4>
+                    <h5>01 >> Select all records and arrange them alphabetically by name.</h5>
+                    <pre><code class="code-block language-sql hljs">SELECT * FROM STUDENT ORDER BY NAME;</code></pre>
+                    <h5>02 >> Select all records and arrange them in dicreasing order of marks</h5>
+                    <pre><code class="code-block language-sql hljs">SELECT * FROM STUDENT ORDER BY MARKS DESC;</code></pre>
+                </div>
+                <div class="codeh no-run no-edit" data-code-id="50">
+                    <h4>8. Group By</h4>
+                    <h5>01 >> Display the number of Students in each class. Also order the result by class.</h5>
+                    <pre><code class="code-block language-sql hljs">SELECT CLASS, COUNT(*) FROM STUDENT GROUP BY CLASS ORDER BY CLASS;</code></pre>
+                    <h5>This is a very simple example, I suggest you to explore something more detailed from our textbook.</h5>
+                </div>
+                <p style="text-align: center">Here we covered the different queries which are usually used. Now, I'm gonna discuss updating records and Altering the structure of the table.</p>
+                <div class="codeh no-run no-edit" data-code-id="51">
+                    <h4>9. Updating records</h4>
+                    <h5>01 >> Update the record of Emily White and set their section to B.</h5>
+                    <pre><code class="code-block language-sql hljs">update student
+set section="B"
+where roll_no=106;</code></pre>
+                    <h5>02 >> Update everyone's record and reduce their marks by 10</h5>
+                    <pre><code class="code-block language-sql hljs">update student
+set marks=marks-10;</code></pre>
+                </div>
+                <div class="codeh no-run no-edit" data-code-id="52">
+                    <h4>10. Altering table</h4>
+                    <h5>01 >> Insert a new column "fee" with a default value</h5>
+                    <pre><code class="code-block language-sql hljs">alter table student
+add fee int default 3000;</code></pre>
+                    <h5>02 >> Rename the column "fee" to "t_fee"</h5>
+                    <pre><code class="code-block language-sql hljs">alter table student
+rename column fee to t_fee;</code></pre>
+                    <h5>03 >> Change the data type of t_fee to varchar</h5>
+                    <pre><code class="code-block language-sql hljs">alter table student
+modify column t_fee varchar(10);</code></pre>
+                    <h5>04 >> Delete the t_fee column</h5>
+                    <pre><code class="code-block language-sql hljs">alter table student
+drop column t_fee;</code></pre>
+                </div>
+                <p style="text-align: center">And finally, we got deleting a record and dropping a table.</p>
+                <div class="codeh no-run no-edit" data-code-id="53">
+                    <h5>01 >> Delete the record of anyone whose name is Alex Davis</h5>
+                    <pre><code class="code-block language-sql hljs">DELETE FROM STUDENT WHERE NAME="Alex Davis";</code></pre>
+                    <h5>02 >> Drop the table</h5>
+                    <pre><code class="code-block language-sql hljs">DROP TABLE STUDENT;</code></pre>
+                </div>
+                <p>Oh hey! looks like someone read this all through, now that you're here consider reading the textbook and solving some questions from there.</p>
             </div>
             <div class="pws py-sql-pms">
                 <h1>Before you proceed...</h1>
                 <p>As insane as this might sound, we haven't really done anything for SQL or SQL connectivity in the class. We did do the theory part but that's as far as it goes, so I'm posting a few SQL connectivity programs from my side similar to the ones we discussed in class.<br><br>If you're wondering why you can't run the code in browser for this tab, I haven't worked on that feature, and I have no plans to, and you shouldn't expect me to.</p>
-                <h1>Nothing here yet.</h1>
             </div>
         </main>
         <div class="copy-a">

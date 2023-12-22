@@ -1056,7 +1056,13 @@ code {
 }
 @media screen and (max-width: 745px) {
     .pws > p {
-        width: 75% !important;
+        width: 82vw !important;
+    }
+    .pws > h1 {
+        width: 82vw !important;
+    }
+    .pws > pre {
+        width: 82vw !important;
     }
     .login_ui {
         z-index: 500;
@@ -1298,6 +1304,10 @@ code {
     display: none;
 }
 
+.no-copy .copy-btn {
+    display: none;
+}
+
 /*tabs*/
 .code-cur {
     display: flex !important;
@@ -1351,4 +1361,10 @@ code {
     font-size: 20px;
     color: white;
     margin-bottom: 20px;
+}
+
+.codeh h5 {
+    color: white;
+    font-weight: normal;
+    font-size: 16px;
 }
