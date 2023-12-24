@@ -1335,6 +1335,7 @@ code {
     padding: 10px 15px;
     font-size: 20px;
     cursor: pointer;
+    color: white;
     transition: all ease 0.2s;
 }
 
@@ -1346,7 +1347,7 @@ code {
 
 .cur-tab {
     background: white;
-    color: black;
+    color: black !important;
     border-radius: 10px;
     box-shadow: white 0px 0px 10px;
 }
