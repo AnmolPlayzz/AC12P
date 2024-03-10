@@ -1,4 +1,4 @@
-<p align="center"><img width="600px" src="https://cdn.discordapp.com/attachments/904245641495060560/1080714516012216381/webs.png"></p>
+<p align="center"><img width="600px" src="https://i.postimg.cc/vZwFNRyb/image.png"></p>
 <h1 align="center">AC12P</h1>
 <p align="center">All class 12 programs - A website listing all python programs I did in class 12. Originally built for term 2 of class 11th.
 
