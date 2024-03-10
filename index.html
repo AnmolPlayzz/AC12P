@@ -267,7 +267,7 @@ for e in document.querySelectorAll("code"):
         <main id="home" class="current">
             <div>
                 <h1>All Class<br>12 Programs.</h1>
-                <a class="exp" href="#code">Explore ></a>
+                <a class="exp" href="#code">Explore</a>
             </div>
             <!---
             <div>
@@ -1248,6 +1248,137 @@ drop column t_fee;</code></pre>
             <div class="pws py-sql-pms">
                 <h1>Before you proceed...</h1>
                 <p>As insane as this might sound, we haven't really done anything for SQL or SQL connectivity in the class. We did do the theory part but that's as far as it goes, so I'm posting a few SQL connectivity programs from my side similar to the ones we discussed in class.<br><br>If you're wondering why you can't run the code in browser for this tab, I haven't worked on that feature, and I have no plans to, and you shouldn't expect me to.</p>
+                <h1>How the content on this page works</h1>
+                <p>For this page, I'll be using the table I created on the SQL page (visit that before reading this). I'm gonna write some programs performing varying queries on the below table. I will also try to cover as many concepts as possible in my code.<br><br>Database name: studentdb // Table name: student</p>
+                <pre class="no-copy no-edit no-run"><code class="code-block language-plaintext hljs">+---------+--------------+-------+---------+-------+
+| roll_no | name         | class | section | marks |
++---------+--------------+-------+---------+-------+
+|     101 | John Doe     |    10 | A       |    85 |
+|     102 | Jane Smith   |    11 | B       |    92 |
+|     103 | Mike Johnson |     9 | C       |    78 |
+|     104 | Sarah Brown  |    12 | A       |    95 |
+|     105 | Alex Davis   |    10 | B       |    89 |
+|     106 | Emily White  |    11 | C       |    88 |
+|     107 | David Lee    |    10 | A       |    91 |
+|     108 | Jessica Chen |     9 | B       |    76 |
++---------+--------------+-------+---------+-------+</code></pre>
+                <p style="text-align: center">(Dummy data provided by ChatGPT)</p>
+                <div class="codeh no-edit no-run" data-code-id="54">
+                    <h4>1. Show all records of the table.</h4>
+                    <pre><code class="code-block language-python hljs">import mysql.connector as m
+con=m.connect(host="localhost", user="root", password="root", database="studentdb")
+cur=con.cursor()
+# executing select cmd
+cur.execute("SELECT * FROM STUDENT")
+res=cur.fetchall()
+print("Roll No","Student Name","Class","Section","Marks",sep="\t")
+for i in res:
+    for j in i:
+        print(j,end="\t")
+    print()</code></pre>
+                </div>
+                <div class="codeh no-edit no-run" data-code-id="55">
+                    <h4>2. Insert a new record into the table.</h4>
+                    <pre><code class="code-block language-python hljs">import mysql.connector as m
+con=m.connect(host="localhost",user="root", password="root", database="studentdb")
+cur=con.cursor()
+while True:
+    r=int(input("Enter Roll number -> "))
+    n=input("Enter name -> ")
+    c=int(input("Enter class -> "))
+    s=input("Enter section -> ")
+    m=int(input("Enter narks -> "))
+    data=(r,n,c,s,m)
+    cur.execute("INSERT INTO STUDENT VALUES(%s,'%s',%s,'%s',%s)"%data)
+    con.commit()
+    inp=input("Enter more records (yes/no)? ")
+    if inp.lower()=="yes":
+        continue
+    elif inp.lower()=="no":
+        break
+    else:
+        print("Inavlid input - exitting input menu")
+        break</code></pre>
+                </div>
+                <div class="codeh no-edit no-run" data-code-id="56">
+                    <h4>3. Search all records based on specific parameters.</h4>
+                    <pre><code class="code-block language-python hljs">import mysql.connector as m
+con=m.connect(host="localhost",user="root",password="root",database="studentdb")
+cur=con.cursor()
+print("""What field do you want the search to proceed with?
+    1 > Roll Number
+    2 > Name
+    3 > Class
+    4 > Section
+    5 > Marks""")
+pm=int(input("\n>>> "))
+if pm==1:
+    q=(int(input("Enter Roll number -> ")),) #anything after % must be passed as a touple
+    cur.execute("SELECT * FROM STUDENT WHERE roll_no=%s"%q)
+elif pm==2:
+    q=(input("Enter Name -> "),)
+    cur.execute("SELECT * FROM STUDENT WHERE name='%s'"%q)
+elif pm==3:
+    q=(int(input("Enter Class -> ")),)
+    cur.execute("SELECT * FROM STUDENT WHERE class=%s"%q)
+elif pm==4:
+    q=(input("Enter Section -> ").capitalize(),)
+    cur.execute("SELECT * FROM STUDENT WHERE section='%s'"%q)
+elif pm==5:
+    q=(int(input("Enter Marks -> ")),)
+    cur.execute("SELECT * FROM STUDENT WHERE marks=%s"%q)
+res=cur.fetchall()
+print("Roll No","Student Name","Class","Section","Marks",sep="\t")
+for i in res:
+    for j in i:
+        print(j,end="\t")
+    print()</code></pre>
+                </div>
+                <div class="codeh no-edit no-run" data-code-id="57">
+                    <h4>4. Modify a specific record (everything except roll number).</h4>
+                    <pre><code class="code-block language-python hljs">import mysql.connector as m
+con=m.connect(host="localhost",user="root",password="root",database="studentdb")
+cur=con.cursor()
+r=int(input("Enter Roll number of the student who's record you want to edit -> "))
+cur.execute("SELECT * FROM STUDENT WHERE roll_no={roll}".format(roll=r))
+data=cur.fetchone()
+print("\nRecord ---//\n")
+print("Roll No","Student Name","Class","Section","Marks",sep="\t")
+for i in data:
+    print(i,end="\t")
+
+print("""\n\nWhich field do you want to edit?
+    1 > Name
+    2 > Class
+    3 > Section
+    4 > Marks""")
+pm=int(input("\n>>> "))
+if pm==1:
+    q=input("Enter new Name -> ")
+    cur.execute("UPDATE STUDENT SET name='{0}' WHERE roll_no={1}".format(q,r))
+elif pm==2:
+    q=int(input("Enter Class -> "))
+    cur.execute("UPDATE STUDENT SET class={0} WHERE roll_no={1}".format(q,r))
+elif pm==3:
+    q=input("Enter Section -> ").capitalize()
+    cur.execute("UPDATE STUDENT SET section='{0}' WHERE roll_no={1}".format(q,r))
+elif pm==4:
+    q=int(input("Enter Marks -> "))
+    cur.execute("UPDATE STUDENT SET marks={0} WHERE roll_no={1}".format(q,r))
+con.commit()
+print("----[ RECORD UPDATED ]----")</code></pre>
+                </div>
+                <div class="codeh no-edit no-run" data-code-id="58">
+                    <h4>5. Delete a specific record.</h4>
+                    <pre><code class="code-block language-python hljs">import mysql.connector as m
+con=m.connect(host="localhost",user="root",password="root",database="studentdb")
+cur=con.cursor()
+r=int(input("Enter roll number of record to delete -> "))
+cur.execute("DELETE FROM STUDENT WHERE ROLL_NO={}".format(r))
+con.commit()
+print("----[ RECORD DELETED ]----")</code></pre>
+                </div>
+                <p style="margin-bottom: 52px">Yo hey! if you're here this probably means you've looked at all the code we did in class. Good job! *pat pat pat* </p>
             </div>
         </main>
         <div class="copy-a">
@@ -1325,12 +1456,20 @@ drop column t_fee;</code></pre>
                     <h5>Version Info</h5>
                     <p style="font-size: 18px; padding-top: 10px;">
                         <span class="latest">LATEST</span>
+                        [10 March 2024] Version 4.11<br>
+                        <br>
+                        <span style="font-size: 17px; font-weight: bolder;">What's new?<br></span>
+                        <span style="font-size: 15px">
+- I changed a few things on the home page and fixed a few bugs<br><br>
+This for sure is the final feature update on the website. It was super fun building it and maintaining. God, I wish time just went slower. Anyway this is a changelog, not the best place to dump my emotions. </span>
+                    <p style="font-size: 18px; padding-top: 10px;">
                         [22 December 2023] Version 4.10<br>
                         <br>
                         <span style="font-size: 17px; font-weight: bolder;">What's new?<br></span>
                         <span style="font-size: 15px">
 - Added a tab UI to the code page to separate code from different languages.<br><br>
-This might as well be the final feature update on the website, assuming there are no bugs in my code.</span>
+This might as well be the final feature update on the website, assuming there are no bugs in my code.<br>edit: no</span>
+
                     <p style="font-size: 18px; padding-top: 10px;">
                         [05 August 2023] Version 4.9<br>
                         <br>
@@ -1404,7 +1543,7 @@ Login and signup feature for a MASSIVE feature coming in future (requested by Mr
                         <span style="font-size: 17px; font-weight: bolder;">What's new?<br></span>
                         <span style="font-size: 15px">
 - UI update to web IDE<br>
-- Clear button for output. Thanks to breeze#7781 for the suggestion on discord.
+- Clear button for output. Thanks to breeze.me for the suggestion on discord.
 </span>
                         <br>
                     <p style="font-size: 18px; padding-top: 10px;">
@@ -1412,7 +1551,7 @@ Login and signup feature for a MASSIVE feature coming in future (requested by Mr
                         <br>
                         <span style="font-size: 17px; font-weight: bolder;">What's new?<br></span>
                         <span style="font-size: 15px">
-- Auto hide drawer on clicking a link. Thnx to cobysack1#4445 for the suggestion on discord.<br>
+- Auto hide drawer on clicking a link. Thnx to @shouko_komi for the suggestion on discord.<br>
 - Fixes for safari browser.
 </span>
                         <br>
@@ -1438,7 +1577,7 @@ A very early version of a python web IDE.
                         <span style="font-size: 17px; font-weight: bolder;">What's new?<br></span>
                         <span style="font-size: 15px">
   Broken code related to "edit in browser".<br>
-  And wait for it, wait for it. I FUCKING SPELT MOTHERFUCKING PROGRAMS WRONG AS "PROGRAMMES" SINCE THE BEGINNING OF THIS SITE. Thnx to Name With Exactly 32 Characters!#4004 (wtf is this username) for pointing this out on Discord.
+  And wait for it, wait for it. I FUCKING SPELT MOTHERFUCKING PROGRAMS WRONG AS "PROGRAMMES" SINCE THE BEGINNING OF THIS SITE. Thnx to @__32 (wtf is this username) for pointing this out on Discord.
 </span>
                         <br>
                     <p style="font-size: 18px; padding-top: 10px;">
@@ -1462,7 +1601,7 @@ A very early version of a python web IDE.
                         <br>
                         <span style="font-size: 17px; font-weight: bolder;">What's new?<br></span>
                         <span style="font-size: 15px">
-  Fixed several bugs. Thnx to big man @Xilzros#7551 on discord for reporting 'em.
+  Fixed several bugs. Thnx to big man @blitzdrachen on discord for reporting 'em.
 </span>
                         <br>
                         <br>
