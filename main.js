@@ -318,6 +318,14 @@ const codeBlocks = document.querySelectorAll('.codeh');
 
  */
 
+if (localStorage.getItem("accepted")===null) {
+    document.querySelector(".comment-rules").style.display="flex"
+    document.querySelector(".com-rules-acc").addEventListener("click", () => {
+        localStorage.setItem("accepted", "1");
+        document.querySelector(".comment-rules").style.display="none"
+    })
+}
+
 if (localStorage.getItem("accepted")==="0") {
     document.querySelector(".comment-rules").style.display="flex"
     document.querySelector(".com-rules-acc").addEventListener("click", () => {
