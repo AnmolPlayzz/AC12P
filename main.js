@@ -287,6 +287,11 @@ async function fetchComments() {
     }
 }
 
+if (localStorage.getItem("accepted")==="1") {
+    localStorage.removeItem("accepted");
+}
+
+
 // get all code blocks on the page
 const codeBlocks = document.querySelectorAll('.codeh');
 /*
@@ -321,18 +326,11 @@ const codeBlocks = document.querySelectorAll('.codeh');
 if (localStorage.getItem("accepted")===null) {
     document.querySelector(".comment-rules").style.display="flex"
     document.querySelector(".com-rules-acc").addEventListener("click", () => {
-        localStorage.setItem("accepted", "1");
+        localStorage.setItem("accepted", "2");
         document.querySelector(".comment-rules").style.display="none"
     })
 }
 
-if (localStorage.getItem("accepted")==="0") {
-    document.querySelector(".comment-rules").style.display="flex"
-    document.querySelector(".com-rules-acc").addEventListener("click", () => {
-        localStorage.setItem("accepted", "1");
-        document.querySelector(".comment-rules").style.display="none"
-    })
-}
 
 
 function appendDiv() {
