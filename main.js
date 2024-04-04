@@ -219,17 +219,10 @@ about.forEach((link) => {
 
 //code/buttons
 document.querySelectorAll(".codeh").forEach(codeBlock => {
-    const form = document.createElement("form")
-    form.classList.add("comment-form")
-    form.setAttribute("data-final-id",codeBlock.getAttribute("data-code-id"))
-    form.innerHTML='<label for="comment">Comment:</label>\n' +
-        '<textarea maxlength="969" id="comment" required></textarea>\n' +
-        '\n' +
-        '<button class="copy-btn post-btn" type="submit">Post</button>'
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault()
-    })
-    codeBlock.appendChild(form)
+    const notice = document.createElement("div")
+    notice.classList.add("comment-notice")
+    notice.innerHTML='<p>This website is now archived, new comments can\'t be posted.</p>'
+    codeBlock.appendChild(notice)
 });
 var code = document.querySelector("code").textContent;
 document.querySelectorAll("code").forEach(codeBlock => {
@@ -324,6 +317,15 @@ const codeBlocks = document.querySelectorAll('.codeh');
 })();
 
  */
+
+if (localStorage.getItem("accepted")==="0") {
+    document.querySelector(".comment-rules").style.display="flex"
+    document.querySelector(".com-rules-acc").addEventListener("click", () => {
+        localStorage.setItem("accepted", "1");
+        document.querySelector(".comment-rules").style.display="none"
+    })
+}
+
 
 function appendDiv() {
     return new Promise((resolve, reject) => {
@@ -442,70 +444,7 @@ document.querySelectorAll(".post-btn").forEach(btn => {
     });
 });
 
-// connect to WebSocket and listen for new comments
-if (localStorage.getItem("accepted")===null) {
-    document.querySelector(".comment-rules").style.display="flex"
-    document.querySelector(".com-rules-acc").addEventListener("click", () => {
-        localStorage.setItem("accepted", "1");
-        document.querySelector(".comment-rules").style.display="none"
-    })
-}
 
-
-
-// get the channel to subscribe to
-const ably = new Ably.Realtime('9B841g.wqnpkQ:yhJapCSFPdYzQPqdCoQAXFohpj3DFG8mi0HiB9arTxU');
-ably.connection.once('connected');
-const channel = ably.channels.get('com');
-
-
-/*
-  Subscribe to a channel.
-  The promise resolves when the channel is attached
-  (and resolves synchronously if the channel is already attached).
-*/
-channel.subscribe('comment', async (message) => {
-    if (message.data == "added") {
-        await fetchComments()
-        const codeBlocks = document.querySelectorAll('.codeh');
-        await (async function () {
-            const comments = await fetchComments();
-            const blocks = document.querySelectorAll(`.codeh > .all-com`);
-
-            blocks.forEach((b) => {
-                console.log(b)
-                b.parentNode.removeChild(b)
-            })
-            document.querySelectorAll("form").forEach(codeBlock => {
-                const div = document.createElement('div');
-                div.classList.add("all-com")
-                codeBlock.parentNode.appendChild(div)
-            });
-            comments.forEach((commentObj) => {
-                const [com, key] = Object.entries(commentObj);
-                const comment = key[1]
-
-                console.log(key)
-                const codeBlock = document.querySelector(`[data-code-id="${comment.codeId}"]`);
-                if (codeBlock) {
-                    const commentList = codeBlock.lastElementChild;
-                    console.log(commentList)
-                    const divItem = document.createElement('div');
-                    divItem.classList.add("com-div")
-                    const auth = document.createElement("h6")
-                    auth.innerText = comment.uName
-                    auth.classList.add("com-auth")
-                    divItem.appendChild(auth)
-                    const com = document.createElement("p")
-                    com.innerText = comment.content
-                    com.classList.add("com-text")
-                    divItem.appendChild(com)
-                    commentList.appendChild(divItem);
-                }
-            });
-        })();
-    }
-});
 codeTabs = document.querySelectorAll(".code-tabs div")
 codeTabs.forEach(tab => {
     tab.addEventListener('click', function(event) {

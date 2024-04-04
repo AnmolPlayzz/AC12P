@@ -1,4 +1,5 @@
 // serverless function to handle comment submissions and WebSocket connections
+/*
 const { ServerApiVersion } = require('mongodb');
 const MongoClient = require('mongodb').MongoClient;
 const WebSocket = require('ws');
@@ -48,3 +49,4 @@ exports.handler = async (event, context) => {
     await client.close();
   }
 };
+*/

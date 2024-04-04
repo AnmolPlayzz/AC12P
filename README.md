@@ -6,11 +6,11 @@
 
 ---
 
+## Archival Notice
 
-<h2>Found a bug?</h2>
+This website has been archived. Everything here is read only now.
 
-- If you're someone I know over the internet/some stranger, open a issue/contact me on Discord (iam.anmol).
+Building this website has taught me a lot, about programming and about web design. So thank you to everyone who appreciated it! And even if you didn't like it, thanks for being a critic.
 
-- If you're someone I know IRL, DM me on WhatsApp/Instagram/whatever the fuck you want to except reddit, I don't check that. I know ur lazy u won't open a issue.
+If you could take anything away from this, it's that dumb shit you make on a friday night can turn into something way cooler.
 
-Made with HTML, CSS, JavaScript, Python, Brython and ❤ by @AnmolPlayzz
